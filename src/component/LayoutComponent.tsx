@@ -1,20 +1,23 @@
 import React from "react"
 import {Outlet} from "react-router-dom";
+import FooterUI from "./ui/FooterUI";
+import HeaderUI from "./ui/HeaderUI";
+import {Container} from "@mui/material";
 
 const LayoutComponent = () => {
     return (
         <>
-            <div className={""}>
-                <header className={""}>
-                    <button>Logout</button>
-                </header>
-            </div>
-            <div className={""}>
+            <HeaderUI/>
+            <Container sx={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                flex: "1 0 auto",
+                paddingTop: "1.5rem"
+            }}>
                 <Outlet/>
-            </div>
-            <footer className={""}>
-                <div>Buhinder 2022</div>
-            </footer>
+            </Container>
+            <FooterUI/>
         </>
     )
 }

@@ -1,23 +1,17 @@
-import React, {MouseEvent} from 'react';
+import React from 'react';
 import LoginForm from "../form/LoginForm";
-import {useNavigate} from "react-router-dom";
+import {Container} from "@mui/material";
 
 const LoginPage = () => {
-    const navigate = useNavigate()
-
-    function handleRegisterOnClick(e: MouseEvent<HTMLElement>) {
-        e.preventDefault();
-        navigate("/register");
-    }
-
     return (
-        <div>
+        <Container sx={{
+            display: "flex",
+            height: "100vh",
+            justifyContent: "center",
+            alignItems: "center"
+        }}>
             <LoginForm/>
-            <div>
-                <span>Need an account?</span>
-                <button onClick={handleRegisterOnClick}>Register</button>
-            </div>
-        </div>
+        </Container>
     );
 };
 
