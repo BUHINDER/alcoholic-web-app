@@ -6,6 +6,7 @@ import {UserEntity} from "../../entity/UserEntity";
 import {UserDto} from "../../dto/UserDto";
 
 export const authApi = createApi({
+    reducerPath: "auth",
     baseQuery: fetchBaseQuery({
         baseUrl: "http://localhost:8081/api",
         credentials: "include",

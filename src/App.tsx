@@ -1,17 +1,18 @@
 import React, {useEffect} from 'react';
-import './App.css';
 import {useAppSelector} from "./store/hook/Redux";
-import {useLogoutMutation, useRefreshMutation} from "./store/api/AuthApi";
+import {useRefreshMutation} from "./store/api/AuthApi";
 import {persist} from "./store/reducer/AuthSlice";
-import LoginPage from "./page/LoginPage";
 import {Route, Routes} from "react-router-dom";
 import LayoutComponent from "./component/LayoutComponent";
+import HomePage from "./page/HomePage";
+import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
+import as from "./App.module.sass";
+import LoaderUI from "./component/ui/LoaderUI";
 
 function App() {
     const {token} = useAppSelector(state => state.authReducer);
-    const [refresh] = useRefreshMutation();
-    const [logout] = useLogoutMutation();
+    const [refresh, {isLoading}] = useRefreshMutation();
     const persistFlag = localStorage.getItem(persist)
 
     useEffect(() => {
@@ -21,14 +22,22 @@ function App() {
     }, []);
 
     return (
-        <div className="App">
-            <Routes>
-                <Route element={<LayoutComponent/>}>
-                    <Route index element={<LoginPage/>}/>
-                    <Route path={"/register"} element={<RegisterPage/>}/>
-                </Route>
-            </Routes>
-        </div>
+        <>
+            {isLoading && <LoaderUI/>}
+            {
+                token
+                    ? <div className={as.app}>
+                        <Routes>
+                            <Route element={<LayoutComponent/>}>
+                                <Route index element={<HomePage/>}/>
+                            </Route>
+                            <Route path={"/login"} element={<LoginPage/>}/>
+                            <Route path={"/register"} element={<RegisterPage/>}/>
+                        </Routes>
+                    </div>
+                    : <LoginPage/>
+            }
+        </>
     );
 }
 

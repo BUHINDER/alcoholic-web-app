@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import {setupStore} from "./store/Store";
 import {BrowserRouter} from "react-router-dom";
