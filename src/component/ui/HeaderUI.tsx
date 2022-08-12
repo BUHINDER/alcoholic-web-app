@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppBar, Box, Container, Toolbar, Typography} from "@mui/material";
-import ProfileUI from "./ProfileUI";
-import HeaderButton from "./HeaderButton";
+import ProfileUI from "./profile/ProfileUI";
+import HeaderButtonsUI from "./HeaderButtonsUI";
 
 const HeaderUI = () => {
     return (
@@ -18,17 +18,13 @@ const HeaderUI = () => {
                     width: "80%",
                     display: "flex",
                     flexDirection: "row",
-                    alignItems: "baseline"
+                    alignItems: "center",
                 }}>
                     <Typography variant="h6" color="black">
                         Buhinder
                     </Typography>
                     <Box sx={{flexGrow: 1}}/>
-                    <Box>
-                        <HeaderButton content={"Button1"}/>
-                        <HeaderButton content={"Button2"}/>
-                        <HeaderButton content={"Button3"}/>
-                    </Box>
+                    <HeaderButtonsUI/>
                     <Box sx={{flexGrow: 1}}/>
                     <ProfileUI/>
                 </Container>

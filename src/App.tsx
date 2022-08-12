@@ -9,6 +9,7 @@ import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import as from "./App.module.sass";
 import LoaderUI from "./component/ui/LoaderUI";
+import ProfilePage from "./page/ProfilePage";
 
 function App() {
     const {token} = useAppSelector(state => state.authReducer);
@@ -30,6 +31,7 @@ function App() {
                         <Routes>
                             <Route element={<LayoutComponent/>}>
                                 <Route index element={<HomePage/>}/>
+                                <Route path={"/profile"} element={<ProfilePage/>}/>
                             </Route>
                             <Route path={"/login"} element={<LoginPage/>}/>
                             <Route path={"/register"} element={<RegisterPage/>}/>
