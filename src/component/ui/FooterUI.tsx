@@ -1,9 +1,9 @@
 import React from 'react';
-import {Box, Link, Typography} from "@mui/material";
+import {Container, Link, Typography} from "@mui/material";
 
 const FooterUI = () => {
     return (
-        <Box sx={{bgcolor: "background.paper", p: 1, mt: 1}} component="footer">
+        <Container sx={{bgcolor: "background.paper", p: 1, mt: 1}} component="footer">
             <Typography variant="h6" align="center" gutterBottom>
                 Buhinder
             </Typography>
@@ -23,7 +23,7 @@ const FooterUI = () => {
                 {new Date().getFullYear()}
                 {'.'}
             </Typography>
-        </Box>
+        </Container>
     );
 };
 

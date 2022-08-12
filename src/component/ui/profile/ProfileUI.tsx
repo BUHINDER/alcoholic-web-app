@@ -1,10 +1,12 @@
 import React from "react";
 import {Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem} from "@mui/material";
-import {useLogoutMutation} from "../../store/api/AuthApi";
+import {useLogoutMutation} from "../../../store/api/AuthApi";
 import {Logout} from "@mui/icons-material";
 import CelebrationIcon from "@mui/icons-material/Celebration";
+import {useNavigate} from "react-router-dom";
 
 const ProfileUI = () => {
+    const navigate = useNavigate();
     const [logout] = useLogoutMutation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const open = Boolean(anchorEl);
@@ -28,10 +30,11 @@ const ProfileUI = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                 >
-                    <Avatar sx={{width: 32, height: 32}}>M</Avatar>
+                    <Avatar sx={{width: 32, height: 32}} src={require("../../../image/stokovyi-chel.jpg")}/>
                 </IconButton>
             </Box>
             <Menu
+                disableScrollLock={true}
                 anchorEl={anchorEl}
                 id="account-menu"
                 open={open}
@@ -67,7 +70,7 @@ const ProfileUI = () => {
                 transformOrigin={{horizontal: "right", vertical: "top"}}
                 anchorOrigin={{horizontal: "right", vertical: "bottom"}}
             >
-                <MenuItem>
+                <MenuItem onClick={() => navigate("/profile")}>
                     <Avatar/> Profile
                 </MenuItem>
                 <Divider/>

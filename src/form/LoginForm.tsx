@@ -32,7 +32,7 @@ const LoginForm = () => {
         return setUser({...user, password: e.target.value});
     }
 
-    const handleOnClick = (e: React.MouseEvent<HTMLElement>) => {
+    const handleOnClick = (e: React.FormEvent<HTMLDivElement>) => {
         e.preventDefault();
         return login(user);
     };
@@ -47,11 +47,10 @@ const LoginForm = () => {
                 <Typography component={"h1"} variant={"h5"}>
                     Sign in
                 </Typography>
-                <Box component={"form"} onSubmit={handleOnClick}>
+                <Box component={"form"} onSubmit={(e: React.FormEvent<HTMLDivElement>) => handleOnClick(e)}>
                     <TextField
                         disabled={isLoading}
                         placeholder={"Login"}
-                        id={"login-field"}
                         variant={"outlined"}
                         margin={"normal"}
                         required
@@ -63,8 +62,7 @@ const LoginForm = () => {
                     />
                     <OutlinedInput
                         placeholder={"Password"}
-                        fullWidth={true}
-                        id={"password-field"}
+                        fullWidth
                         disabled={user.login.length <= 0 || isLoading}
                         type={isVisible ? 'text' : 'password'}
                         value={user.password}

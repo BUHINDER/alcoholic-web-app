@@ -9,6 +9,6 @@ export interface EventDto {
     location: string,
     status: EventStatus,
     startDate: number,
-    endDate?: number,
+    endDate: number,
     createdBy: string,
 }
