@@ -1,8 +1,8 @@
 import {TabPanel} from "@mui/lab";
-import {Box, Button, IconButton} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import ProfileFieldUI from "./ProfileFieldUI";
 import React, {FormEvent, useState} from "react";
-import {PhotoCamera} from "@mui/icons-material";
+import PhotoButtonUI from "../../util/PhotoButtonUI";
 
 const AccountInfoTabUI = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
@@ -19,10 +19,7 @@ const AccountInfoTabUI = () => {
                 <ProfileFieldUI fieldLabel={"Last Name"} isEnabled={isEditing}/>
                 <ProfileFieldUI fieldLabel={"Age"} isEnabled={isEditing}/>
                 <ProfileFieldUI fieldLabel={"Email"} isEnabled={isEditing}/>
-                <IconButton color="primary" component="label">
-                    <input hidden accept="image/*" type="file"/>
-                    <PhotoCamera/>
-                </IconButton>
+                <PhotoButtonUI/>
             </Box>
             {!isEditing &&
                 <Button variant={"contained"} onClick={() => setIsEditing(true)}>Edit</Button>}

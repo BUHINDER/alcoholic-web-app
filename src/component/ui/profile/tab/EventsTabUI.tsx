@@ -12,11 +12,11 @@ import {
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import {EventDto} from "../../../../dto/EventDto";
-import {useGetAllQuery} from "../../../../store/api/EventApi";
+import {useGetAllEventsQuery} from "../../../../store/api/EventApi";
 import {epochToDate} from "../../../../util/DateUtil";
 
 const EventsTabUI = () => {
-    const {data = [], isLoading} = useGetAllQuery(); //todo should be fetching own events
+    const {data = [], isLoading} = useGetAllEventsQuery(); //todo should be fetching own events
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
