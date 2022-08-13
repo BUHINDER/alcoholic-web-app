@@ -4,33 +4,38 @@ import {TabContext} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
 
 const HeaderButtonsUI = () => {
-    const navigate = useNavigate();
     const [tabValue, setTabValue] = useState<number>(0);
-
-    function handleChange(event: React.SyntheticEvent, newValue: number) {
-        setTabValue(newValue);
-    }
+    const navigate = useNavigate();
 
     function handleClick(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>, to: string) {
         e.preventDefault();
         navigate(to);
     }
 
+    function handleChange(event: React.SyntheticEvent, newValue: number) {
+        setTabValue(newValue);
+    }
+
     return (
         <TabContext value={`${tabValue}`}>
             <Tabs value={tabValue} onChange={handleChange} variant={"fullWidth"}>
-                {/*Extract tab element*/}
-                <Tab component={"a"} label="TEST"
+                <Tab label={"Home"}
+                     component={"a"}
+                     sx={{color: "black"}}
                      onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
                          handleClick(e, "/")
                      }
                 />
-                <Tab component={"a"} label="TEST"
+                <Tab label={"Events"}
+                     component={"a"}
+                     sx={{color: "black"}}
                      onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
-                         handleClick(e, "/")
+                         handleClick(e, "/events")
                      }
                 />
-                <Tab component={"a"} label="TEST"
+                <Tab label={"Home"}
+                     component={"a"}
+                     sx={{color: "black"}}
                      onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
                          handleClick(e, "/")
                      }

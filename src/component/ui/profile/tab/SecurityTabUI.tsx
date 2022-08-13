@@ -1,7 +1,7 @@
 import React from 'react';
 import {TabPanel} from "@mui/lab";
 import {Box, Button, Typography} from "@mui/material";
-import ProfileFieldUI from "../ProfileFieldUI";
+import ProfileFieldUI from "./ProfileFieldUI";
 
 const SecurityTabUI = () => {
     return (

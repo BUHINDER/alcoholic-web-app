@@ -1,6 +1,6 @@
 import {TabPanel} from "@mui/lab";
 import {Box, Button, IconButton} from "@mui/material";
-import ProfileFieldUI from "../ProfileFieldUI";
+import ProfileFieldUI from "./ProfileFieldUI";
 import React, {FormEvent, useState} from "react";
 import {PhotoCamera} from "@mui/icons-material";
 
