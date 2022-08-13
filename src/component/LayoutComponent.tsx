@@ -14,7 +14,6 @@ const LayoutComponent = () => {
                 flexDirection: "column",
                 flex: "1 0 auto",
                 padding: "1.5rem",
-
             }}>
                 <Outlet/>
             </Box>

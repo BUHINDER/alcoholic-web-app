@@ -1,12 +1,12 @@
 import React from 'react';
 import {Grid} from "@mui/material";
 import EventPreviewUI from "../EventPreviewUI";
-import {useGetAllQuery} from "../../../../store/api/EventApi";
+import {useGetAllEventsQuery} from "../../../../store/api/EventApi";
 import LoaderUI from "../../LoaderUI";
 import {TabPanel} from "@mui/lab";
 
 const SearchEventTabUI = () => {
-    const {data = [], isLoading} = useGetAllQuery();
+    const {data = [], isLoading} = useGetAllEventsQuery();
 
     return (
         <TabPanel value={"1"}>
