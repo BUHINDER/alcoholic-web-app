@@ -1,6 +1,6 @@
 import React from 'react';
 import {AppBar, Box, Container, Toolbar, Typography} from "@mui/material";
-import ProfileUI from "./profile/ProfileUI";
+import ProfileUI from "../profile/ProfileUI";
 import HeaderButtonsUI from "./HeaderButtonsUI";
 
 const HeaderUI = () => {

@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
-import {EventDto} from "../../dto/EventDto";
+import {EventDto} from "../../../dto/EventDto";
 import {Button, ButtonGroup, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
-import {EventType} from "../../dto/EventType";
+import {EventType} from "../../../dto/EventType";
 
 interface IEventPreview {
     event: EventDto,
@@ -12,7 +12,7 @@ const EventPreviewUI: FC<IEventPreview> = ({event}) => {
         <Grid item xs={12} sm={6} md={3}>
             <Card sx={{maxHeight: "30rem", minHeight: "30rem", display: "flex", flexDirection: "column"}}>
                 <CardMedia component="img"
-                           image={require("../../image/1.jpg")}
+                           image={require("../../../image/1.jpg")}
                            alt={event.title}
                            sx={{objectFit: "cover", maxHeight: "15rem", minHeight: "15rem", width: "100%"}}
                 />
@@ -26,7 +26,7 @@ const EventPreviewUI: FC<IEventPreview> = ({event}) => {
                 </CardContent>
                 <ButtonGroup variant={"text"} fullWidth>
                     <Button>View</Button>
-                    <Button variant={"contained"}>{event.type == EventType.APPROVE ? "Request" : "Join"}</Button>
+                    <Button>{event.type == EventType.APPROVE ? "Request" : "Join"}</Button>
                 </ButtonGroup>
             </Card>
         </Grid>

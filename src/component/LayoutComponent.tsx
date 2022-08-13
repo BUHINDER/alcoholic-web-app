@@ -1,6 +1,6 @@
 import React from "react"
 import {Outlet} from "react-router-dom";
-import HeaderUI from "./ui/HeaderUI";
+import HeaderUI from "./ui/header/HeaderUI";
 import {Box} from "@mui/material";
 
 const LayoutComponent = () => {

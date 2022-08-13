@@ -5,7 +5,7 @@ import EventsTabUI from "./EventsTabUI";
 import SecurityTabUI from "./SecurityTabUI";
 import {TabContext} from "@mui/lab";
 
-const MainTabUI = () => {
+const ProfileMainTabUI = () => {
     const [tabValue, setTabValue] = useState<number>(1);
 
     function handleChange(event: React.SyntheticEvent, newValue: number) {
@@ -26,4 +26,4 @@ const MainTabUI = () => {
     );
 };
 
-export default MainTabUI;
+export default ProfileMainTabUI;

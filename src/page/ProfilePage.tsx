@@ -1,6 +1,6 @@
 import React from 'react';
 import {Card, CardMedia, Container, Grid} from "@mui/material";
-import MainTabUI from "../component/ui/profile/tab/MainTabUI";
+import ProfileMainTabUI from "../component/ui/profile/tab/ProfileMainTabUI";
 
 const ProfilePage = () => {
     return (
@@ -25,7 +25,7 @@ const ProfilePage = () => {
                     </Card>
                 </Grid>
                 <Grid item md={9}>
-                    <MainTabUI/>
+                    <ProfileMainTabUI/>
                 </Grid>
             </Grid>
         </Container>
