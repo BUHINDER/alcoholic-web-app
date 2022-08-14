@@ -15,7 +15,7 @@ import EventsPage from "./page/EventsPage";
 function App() {
     const {token} = useAppSelector(state => state.authReducer);
     const [refresh, {isLoading}] = useRefreshMutation();
-    const persistFlag = localStorage.getItem(persist)
+    const persistFlag = localStorage.getItem(persist);
 
     useEffect(() => {
         if (!token && persistFlag) {

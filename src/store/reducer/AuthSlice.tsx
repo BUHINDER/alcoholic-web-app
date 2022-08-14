@@ -1,13 +1,17 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {AccessTokenDto} from "../../dto/AccessTokenDto";
 import {authApi} from "../api/AuthApi";
+import {JwtModel} from "../../model/JwtModel";
+import jwtDecode from "jwt-decode";
 
 interface IAuth {
-    token: string | null
+    token: string | null,
+    context: JwtModel | null,
 }
 
 const AuthContextDefaults: IAuth = {
-    token: null
+    token: null,
+    context: null,
 }
 
 export const persist = "persist";
@@ -21,7 +25,8 @@ export const authSlice = createSlice({
             authApi.endpoints.login.matchFulfilled,
             (state, action: PayloadAction<AccessTokenDto>) => {
                 state.token = action.payload.accessToken;
-                localStorage.setItem(persist, persist)
+                state.context = jwtDecode(state.token) as JwtModel;
+                localStorage.setItem(persist, persist);
             }
         );
         builder.addMatcher(
@@ -35,6 +40,7 @@ export const authSlice = createSlice({
             authApi.endpoints.refresh.matchFulfilled,
             (state, action: PayloadAction<AccessTokenDto>) => {
                 state.token = action.payload.accessToken;
+                state.context = jwtDecode(state.token) as JwtModel;
             }
         );
     }

@@ -1,11 +1,13 @@
 import React from "react";
-import {Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem} from "@mui/material";
+import {Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography} from "@mui/material";
 import {useLogoutMutation} from "../../../store/api/AuthApi";
 import {Logout} from "@mui/icons-material";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../../store/hook/Redux";
 
 const ProfileUI = () => {
+    const {context} = useAppSelector(state => state.authReducer);
     const navigate = useNavigate();
     const [logout] = useLogoutMutation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -22,6 +24,7 @@ const ProfileUI = () => {
     return (
         <>
             <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
+                <Typography sx={{color: "black"}}>{context?.context.displayName}</Typography>
                 <IconButton
                     onClick={handleClick}
                     size="small"

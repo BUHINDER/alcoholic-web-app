@@ -10,7 +10,12 @@ interface IEventPreview {
 const EventPreviewUI: FC<IEventPreview> = ({event}) => {
     return (
         <Grid item xs={12} sm={6} md={3}>
-            <Card sx={{maxHeight: "30rem", minHeight: "30rem", display: "flex", flexDirection: "column"}}>
+            <Card sx={{
+                maxHeight: "30rem",
+                minHeight: "30rem",
+                display: "flex",
+                flexDirection: "column",
+            }}>
                 <CardMedia component="img"
                            image={require("../../../image/1.jpg")}
                            alt={event.title}

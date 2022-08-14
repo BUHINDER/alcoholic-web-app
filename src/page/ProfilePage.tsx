@@ -10,7 +10,6 @@ const ProfilePage = () => {
                       display: "flex",
                       flexDirection: "row",
                       justifyContent: "space-between",
-                      height: "17rem",
                       mb: 2,
                   }}
             >
