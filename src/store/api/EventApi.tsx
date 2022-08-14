@@ -18,13 +18,19 @@ export const eventApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["EVENT"],
+    tagTypes: ["EVENT", "OWN_EVENTS"],
     endpoints: (build) => ({
         getAllEvents: build.query<EventDto[], void>({
             query: () => ({
                 url: ""
             }),
             providesTags: () => ["EVENT"]
+        }),
+        getAllOwnEvents: build.query<EventDto[], void>({
+            query: () => ({
+                url: "/own"
+            }),
+            providesTags: () => ["OWN_EVENTS"]
         }),
         postEvent: build.mutation<void, EventEntity>({
             query: (event: EventEntity) => ({
@@ -37,4 +43,4 @@ export const eventApi = createApi({
     })
 });
 
-export const {useGetAllEventsQuery, usePostEventMutation} = eventApi;
+export const {useGetAllEventsQuery, usePostEventMutation, useGetAllOwnEventsQuery} = eventApi;

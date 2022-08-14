@@ -1,13 +1,13 @@
 import React from "react"
 import {Outlet} from "react-router-dom";
 import HeaderUI from "./ui/header/HeaderUI";
-import {Box} from "@mui/material";
+import {Container} from "@mui/material";
 
 const LayoutComponent = () => {
     return (
         <>
             <HeaderUI/>
-            <Box sx={{
+            <Container sx={{
                 width: "100%",
                 height: "100%",
                 display: "flex",
@@ -16,7 +16,7 @@ const LayoutComponent = () => {
                 padding: "1.5rem",
             }}>
                 <Outlet/>
-            </Box>
+            </Container>
             {/*<FooterUI/>*/}
         </>
     )
