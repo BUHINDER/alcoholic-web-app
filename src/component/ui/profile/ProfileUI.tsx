@@ -2,7 +2,6 @@ import React from "react";
 import {Avatar, Box, Divider, IconButton, ListItemIcon, Menu, MenuItem, Typography} from "@mui/material";
 import {useLogoutMutation} from "../../../store/api/AuthApi";
 import {Logout} from "@mui/icons-material";
-import CelebrationIcon from "@mui/icons-material/Celebration";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../store/hook/Redux";
 
@@ -77,12 +76,6 @@ const ProfileUI = () => {
                     <Avatar/> Profile
                 </MenuItem>
                 <Divider/>
-                <MenuItem>
-                    <ListItemIcon>
-                        <CelebrationIcon fontSize="small"/>
-                    </ListItemIcon>
-                    Events
-                </MenuItem>
                 <MenuItem onClick={() => logout()}>
                     <ListItemIcon>
                         <Logout fontSize="small"/>

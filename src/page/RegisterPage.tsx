@@ -1,12 +1,17 @@
 import React from 'react';
+import {Container} from "@mui/material";
 import RegisterForm from "../form/RegisterForm";
 
 const RegisterPage = () => {
-
     return (
-        <div>
+        <Container sx={{
+            display: "flex",
+            height: "100vh",
+            justifyContent: "center",
+            alignItems: "center"
+        }}>
             <RegisterForm/>
-        </div>
+        </Container>
     );
 }
 

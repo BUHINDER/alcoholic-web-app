@@ -33,13 +33,6 @@ const HeaderButtonsUI = () => {
                          handleClick(e, "/events")
                      }
                 />
-                <Tab label={"Home"}
-                     component={"a"}
-                     sx={{color: "black"}}
-                     onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
-                         handleClick(e, "/")
-                     }
-                />
             </Tabs>
         </TabContext>
     );

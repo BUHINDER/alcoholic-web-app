@@ -12,12 +12,12 @@ import {
     Grid,
     IconButton,
     InputAdornment,
-    Link,
     OutlinedInput,
     TextField,
     Typography
 } from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {Link} from "react-router-dom";
 
 const LoginForm = () => {
     const [user, setUser] = useState<UserCredentialsEntity>({login: "", password: ""});
@@ -61,6 +61,7 @@ const LoginForm = () => {
                         onChange={handleLoginOnChange}
                     />
                     <OutlinedInput
+                        sx={{color: "black"}}
                         placeholder={"Password"}
                         fullWidth
                         disabled={user.login.length <= 0 || isLoading}
@@ -89,17 +90,17 @@ const LoginForm = () => {
                         variant={"contained"}
                         sx={{mt: 3, mb: 2}}
                     >
-                        Log In
+                        Sign In
                     </LoadingButton>
                 </Box>
                 <Grid container sx={{display: "flex", flexDirection: "column"}}>
                     <Grid item xs>
-                        <Link href="#" variant="body2">
-                            Forgot password?
+                        <Link to={"/restore"}>
+                            {"Forgot password?"}
                         </Link>
                     </Grid>
                     <Grid item>
-                        <Link href="#" variant="body2">
+                        <Link to={"/register"}>
                             {"Don't have an account? Sign Up"}
                         </Link>
                     </Grid>

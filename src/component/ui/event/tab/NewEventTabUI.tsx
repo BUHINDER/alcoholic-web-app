@@ -30,13 +30,14 @@ const NewEventTabUI = () => {
         saveEvent(eventEntity)
             .then(() => {
                 if (isSuccess) {
-                    setEventEntity(initialState)
+                    setEventEntity(initialState);
                 }
             });
     }
 
     return (
-        <TabPanel value={"0"} sx={{display: "flex", flexDirection: "column", flex: "1 0 auto", position: "relative", padding: 0}}>
+        <TabPanel value={"0"}
+                  sx={{display: "flex", flexDirection: "column", flex: "1 0 auto", position: "relative", padding: 0}}>
             {isSuccess && <SuccessAlertUI/>}
             {isError && <ErrorAlertUI/>}
             <form onSubmit={e => handleOnSubmit(e)}>

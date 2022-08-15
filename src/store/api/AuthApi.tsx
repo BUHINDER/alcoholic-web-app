@@ -22,7 +22,7 @@ export const authApi = createApi({
     }),
     tagTypes: ["Auth"],
     endpoints: (build) => ({
-        register: build.mutation<UserDto, UserCredentialsEntity>({
+        register: build.mutation<UserDto, UserEntity>({
             query: (entity: UserEntity) => ({
                 url: "/register",
                 method: "POST",
