@@ -1,87 +1,166 @@
 import React, {ChangeEvent, MouseEvent, useState} from 'react';
-import {ImSpinner9} from "react-icons/im";
 import {useRegisterMutation} from "../store/api/AuthApi";
 import {UserEntity} from "../entity/UserEntity";
+import {
+    Avatar,
+    Box,
+    Container,
+    CssBaseline,
+    Grid,
+    IconButton,
+    InputAdornment,
+    OutlinedInput,
+    TextField,
+    Typography
+} from "@mui/material";
+import {Visibility, VisibilityOff} from "@mui/icons-material";
+import {LoadingButton} from "@mui/lab";
+import {Link} from "react-router-dom";
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+
+const initialState = {
+    firstname: "",
+    lastName: "",
+    age: undefined,
+    email: "",
+    login: "",
+    password: "",
+}
 
 const RegisterForm = () => {
-    const [user, setUser] = useState<UserEntity>({
-        firstname: "",
-        lastName: "",
-        age: undefined,
-        login: "",
-        password: "",
-    });
+    const [isVisible, setIsVisible] = useState<boolean>(false);
+    const [user, setUser] = useState<UserEntity>(initialState);
     const [register, {isLoading}] = useRegisterMutation();
 
-    function handleFirstnameOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, firstname: e.target.value});
-    }
-
-    function handleLastNameOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, lastName: e.target.value});
-    }
-
-    function handleAgeOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, age: Number(e.target.value)});
-    }
-
-    function handleLoginOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, login: e.target.value});
-    }
-
-    function handlePasswordOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, password: e.target.value});
+    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+        return setUser({...user, [e.target.name]: e.target.value});
     }
 
     function handleOnClick(e: MouseEvent<HTMLElement>) {
         e.preventDefault();
-        return register(user);
+        register(user)
+            .then(() => setUser(initialState));
     }
 
     return (
         <>
-            {
-                isLoading
-                    ? <ImSpinner9 className={""}/>
-                    : <form className={""}>
-                        <input className={""}
-                               type={"text"}
-                               placeholder={"Имя"}
-                               required={true}
-                               onChange={handleFirstnameOnChange}
-                               value={user.firstname}
-                               autoFocus={true}/>
-                        <input className={""}
-                               type={"text"}
-                               placeholder={"Фамилия"}
-                               required={true}
-                               onChange={handleLastNameOnChange}
-                               value={user.lastName}/>
-                        <input className={""}
-                               type={"number"}
-                               placeholder={"Возраст"}
-                               onChange={handleAgeOnChange}
-                               value={user.age}
-                               min={1}
-                               max={150}/>
-                        <input className={""}
-                               type={"text"}
-                               placeholder={"Имя пользователя"}
-                               required={true}
-                               onChange={handleLoginOnChange}
-                               value={user.login}/>
-                        <input className={""}
-                               type={"password"}
-                               placeholder={"Пароль"}
-                               required={true}
-                               onChange={handlePasswordOnChange}
-                               value={user.password}/>
-                        <button className={""}
-                                onClick={handleOnClick}>
-                            Зарегистрироваться
-                        </button>
-                    </form>
-            }
+            <Container maxWidth={"xs"}>
+                <CssBaseline/>
+                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+                    <Avatar sx={{m: 1, bgcolor: "76ff03"}}>
+                        <AppRegistrationIcon/>
+                    </Avatar>
+                    <Typography component={"h1"} variant={"h5"}>
+                        Sign Up
+                    </Typography>
+                    <Box>
+                        <TextField type={"text"}
+                                   placeholder={"First Name"}
+                                   label={"First Name"}
+                                   name={"firstname"}
+                                   required
+                                   onChange={handleOnChange}
+                                   value={user.firstname}
+                                   autoFocus
+                                   variant={"outlined"}
+                                   margin={"normal"}
+                                   fullWidth
+                        />
+                        <TextField type={"text"}
+                                   placeholder={"Last Name"}
+                                   label={"Last Name"}
+                                   name={"lastName"}
+                                   required
+                                   onChange={handleOnChange}
+                                   value={user.lastName}
+                                   autoFocus
+                                   variant={"outlined"}
+                                   margin={"normal"}
+                                   fullWidth
+                        />
+                        <TextField type={"number"}
+                                   placeholder={"Age"}
+                                   label={"Age"}
+                                   name={"age"}
+                                   required
+                                   onChange={handleOnChange}
+                                   value={user.age}
+                                   autoFocus
+                                   variant={"outlined"}
+                                   margin={"normal"}
+                                   fullWidth
+                        />
+                        <TextField type={"email"}
+                                   placeholder={"Email"}
+                                   label={"Email"}
+                                   name={"email"}
+                                   required
+                                   onChange={handleOnChange}
+                                   value={user.email}
+                                   autoFocus
+                                   variant={"outlined"}
+                                   margin={"normal"}
+                                   fullWidth
+                        />
+                        <TextField type={"text"}
+                                   placeholder={"Login"}
+                                   label={"Login"}
+                                   name={"login"}
+                                   required
+                                   onChange={handleOnChange}
+                                   value={user.login}
+                                   autoFocus
+                                   variant={"outlined"}
+                                   margin={"normal"}
+                                   fullWidth
+                        />
+                        <OutlinedInput
+                            sx={{mt: 2}}
+                            name={"password"}
+                            placeholder={"Password"}
+                            fullWidth
+                            type={isVisible ? 'text' : 'password'}
+                            value={user.password}
+                            onChange={handleOnChange}
+                            endAdornment={
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        disabled={user.login.length <= 0 || isLoading}
+                                        aria-label={"toggle password visibility"}
+                                        onClick={() => setIsVisible(!isVisible)}
+                                        onMouseDown={e => e.preventDefault()}
+                                        edge={"end"}
+                                    >
+                                        {isVisible ? <VisibilityOff/> : <Visibility/>}
+                                    </IconButton>
+                                </InputAdornment>
+                            }
+                        />
+                        <LoadingButton
+                            onClick={handleOnClick}
+                            loading={isLoading}
+                            type={"submit"}
+                            fullWidth
+                            variant={"contained"}
+                            sx={{mt: 3, mb: 2}}
+                        >
+                            Sign Up
+                        </LoadingButton>
+                    </Box>
+                    <Grid container sx={{display: "flex", flexDirection: "column"}}>
+                        <Grid item xs>
+                            <Link to={"/restore"}>
+                                {"Forgot password?"}
+                            </Link>
+                        </Grid>
+                        <Grid item>
+                            <Link to={"/login"}>
+                                {"Already have an account? Sign In"}
+                            </Link>
+                        </Grid>
+                    </Grid>
+                </Box>
+            </Container>
         </>
     );
 };

@@ -26,20 +26,19 @@ function App() {
     return (
         <>
             {isLoading && <LoaderUI/>}
-            {
-                token
-                    ? <div className={as.app}>
-                        <Routes>
-                            <Route element={<LayoutComponent/>}>
-                                <Route index element={<HomePage/>}/>
-                                <Route path={"/profile"} element={<ProfilePage/>}/>
-                                <Route path={"/events"} element={<EventsPage/>}/>
-                            </Route>
-                            <Route path={"/login"} element={<LoginPage/>}/>
-                            <Route path={"/register"} element={<RegisterPage/>}/>
-                        </Routes>
-                    </div>
-                    : <LoginPage/>
+            {!token && <LoginPage/>}
+            {token &&
+                <div className={as.app}>
+                    <Routes>
+                        <Route element={<LayoutComponent/>}>
+                            <Route index element={<HomePage/>}/>
+                            <Route path={"/profile"} element={<ProfilePage/>}/>
+                            <Route path={"/events"} element={<EventsPage/>}/>
+                        </Route>
+                        <Route path={"/login"} element={<LoginPage/>}/>
+                        <Route path={"/register"} element={<RegisterPage/>}/>
+                    </Routes>
+                </div>
             }
         </>
     );
