@@ -125,7 +125,7 @@ const RegisterForm = () => {
                             endAdornment={
                                 <InputAdornment position="end">
                                     <IconButton
-                                        disabled={user.login.length <= 0 || isLoading}
+                                        disabled={isLoading}
                                         aria-label={"toggle password visibility"}
                                         onClick={() => setIsVisible(!isVisible)}
                                         onMouseDown={e => e.preventDefault()}

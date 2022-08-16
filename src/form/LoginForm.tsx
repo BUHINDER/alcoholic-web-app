@@ -17,24 +17,21 @@ import {
     Typography
 } from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 
 const LoginForm = () => {
     const [user, setUser] = useState<UserCredentialsEntity>({login: "", password: ""});
     const [login, {isLoading}] = useLoginMutation();
     const [isVisible, setIsVisible] = useState<boolean>(false);
+    const navigate = useNavigate();
 
-    function handleLoginOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, login: e.target.value});
-    }
-
-    function handlePasswordOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, password: e.target.value});
+    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
+        return setUser({...user, [e.target.id]: e.target.value});
     }
 
     const handleOnClick = (e: React.FormEvent<HTMLDivElement>) => {
         e.preventDefault();
-        return login(user);
+        return login(user).then(() => navigate("/", {replace: true}))
     };
 
     return (
@@ -51,6 +48,7 @@ const LoginForm = () => {
                     <TextField
                         disabled={isLoading}
                         placeholder={"Login"}
+                        id={"login"}
                         variant={"outlined"}
                         margin={"normal"}
                         required
@@ -58,16 +56,17 @@ const LoginForm = () => {
                         autoFocus
                         type={"text"}
                         value={user.login}
-                        onChange={handleLoginOnChange}
+                        onChange={handleOnChange}
                     />
                     <OutlinedInput
                         sx={{color: "black"}}
                         placeholder={"Password"}
+                        id={"password"}
                         fullWidth
                         disabled={user.login.length <= 0 || isLoading}
                         type={isVisible ? 'text' : 'password'}
                         value={user.password}
-                        onChange={handlePasswordOnChange}
+                        onChange={handleOnChange}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton
