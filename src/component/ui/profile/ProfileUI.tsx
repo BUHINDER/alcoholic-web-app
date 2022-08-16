@@ -20,6 +20,11 @@ const ProfileUI = () => {
         setAnchorEl(null);
     }
 
+    function handleLogout() {
+        logout()
+            .then(() => navigate("/login", {replace: true}));
+    }
+
     return (
         <>
             <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
@@ -76,7 +81,7 @@ const ProfileUI = () => {
                     <Avatar/> Profile
                 </MenuItem>
                 <Divider/>
-                <MenuItem onClick={() => logout()}>
+                <MenuItem onClick={handleLogout}>
                     <ListItemIcon>
                         <Logout fontSize="small"/>
                     </ListItemIcon>
