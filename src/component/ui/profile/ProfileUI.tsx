@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../store/hook/Redux";
 
 const ProfileUI = () => {
-    const {context} = useAppSelector(state => state.authReducer);
+    const {jwt} = useAppSelector(state => state.authReducer);
     const navigate = useNavigate();
     const [logout] = useLogoutMutation();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -23,7 +23,7 @@ const ProfileUI = () => {
     return (
         <>
             <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
-                <Typography sx={{color: "black"}}>{context?.context.displayName}</Typography>
+                <Typography sx={{color: "black"}}>{jwt ? jwt.context.displayName : "Unknown User"}</Typography>
                 <IconButton
                     onClick={handleClick}
                     size="small"
