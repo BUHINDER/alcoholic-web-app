@@ -12,7 +12,7 @@ const SearchEventTabUI = () => {
         <TabPanel value={"1"}>
             {isLoading && <LoaderUI/>}
             {data.length == 0 &&
-                <Grid container justifyContent={"center"}>
+                <Grid container sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <h2>There are no events available</h2>
                 </Grid>
             }

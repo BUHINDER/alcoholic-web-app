@@ -45,7 +45,7 @@ const NewEventTabUI = () => {
                     <Grid item md={6}>
                         <EventFromContainer>
                             <Typography variant={"h6"}>Select Event Dates</Typography>
-                            <Box sx={{display: "flex", flexDirection: "row", gap: "5rem"}}>
+                            <Box sx={{display: "flex", flexDirection: "row", gap: "2rem"}}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
