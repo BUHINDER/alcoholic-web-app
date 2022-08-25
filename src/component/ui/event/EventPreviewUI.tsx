@@ -1,13 +1,15 @@
 import React, {FC} from 'react';
-import {EventDto} from "../../../dto/EventDto";
 import {Button, ButtonGroup, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {EventType} from "../../../dto/EventType";
+import {FullEventDto} from "../../../dto/FullEventDto";
 
 interface IEventPreview {
-    event: EventDto,
+    fullEvent: FullEventDto,
 }
 
-const EventPreviewUI: FC<IEventPreview> = ({event}) => {
+const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
+    const event = fullEvent.event;
+
     return (
         <Grid item xs={12} sm={6} md={3}>
             <Card sx={{
@@ -17,7 +19,11 @@ const EventPreviewUI: FC<IEventPreview> = ({event}) => {
                 flexDirection: "column",
             }}>
                 <CardMedia component="img"
-                           image={require("../../../image/1.jpg")}
+                           image={
+                               fullEvent.images.length > 0
+                                   ? `http://localhost:8082/api/alcoparty/image/${fullEvent.images[0]}`
+                                   : require("../../../image/1.jpg")
+                           }
                            alt={event.title}
                            sx={{objectFit: "cover", maxHeight: "15rem", minHeight: "15rem", width: "100%"}}
                 />

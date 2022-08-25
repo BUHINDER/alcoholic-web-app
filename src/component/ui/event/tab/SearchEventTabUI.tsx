@@ -4,6 +4,7 @@ import EventPreviewUI from "../EventPreviewUI";
 import {useGetAllEventsQuery} from "../../../../store/api/EventApi";
 import LoaderUI from "../../LoaderUI";
 import {TabPanel} from "@mui/lab";
+import {FullEventDto} from "../../../../dto/FullEventDto";
 
 const SearchEventTabUI = () => {
     const {data = [], isLoading} = useGetAllEventsQuery();
@@ -17,7 +18,7 @@ const SearchEventTabUI = () => {
                 </Grid>
             }
             <Grid container spacing={3}>
-                {data.map(event => <EventPreviewUI key={event.id} event={event}/>)}
+                {data.map((event: FullEventDto) => <EventPreviewUI key={event.event.id} fullEvent={event}/>)}
             </Grid>
         </TabPanel>
     );
