@@ -5,7 +5,7 @@ import {PhotoCamera} from "@mui/icons-material";
 const PhotoButtonUI = ({...props}) => {
     return (
         <IconButton {...props} color="primary" component="label">
-            <input hidden accept="image/*" type="file"/>
+            <input multiple hidden accept="image/jpeg" type="file"/>
             <PhotoCamera/>
         </IconButton>
     );

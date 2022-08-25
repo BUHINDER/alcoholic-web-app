@@ -1,6 +1,17 @@
 import React, {FC, FormEvent, ReactNode, useState} from 'react';
 import {TabPanel} from "@mui/lab";
-import {Autocomplete, Box, Button, Grid, MenuItem, Select, TextField, Typography} from "@mui/material";
+import {
+    Autocomplete,
+    Box,
+    Button,
+    Grid,
+    ImageList,
+    ImageListItem,
+    MenuItem,
+    Select,
+    TextField,
+    Typography
+} from "@mui/material";
 import {EventEntity} from "../../../../entity/EventEntity";
 import {EventType} from "../../../../dto/EventType";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
@@ -22,17 +33,32 @@ const initialState: EventEntity = {
 }
 
 const NewEventTabUI = () => {
+    const formData = new FormData();
+    const [blobs, setBlobs] = useState<Blob[]>([]);
     const [eventEntity, setEventEntity] = useState<EventEntity>(initialState);
     const [saveEvent, {isSuccess, isError}] = usePostEventMutation();
 
     function handleOnSubmit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
-        saveEvent(eventEntity)
+        formData.append("event", new Blob([JSON.stringify(eventEntity)], {type: 'application/json'}));
+        blobs.map(blob => formData.append("images", blob));
+        saveEvent(formData)
             .then(() => {
                 if (isSuccess) {
                     setEventEntity(initialState);
+                    setBlobs([]);
                 }
             });
+    }
+
+    function handleImageOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const files = e.target.files;
+        if (files) {
+            for (let i = 0; i < files.length; i++) {
+                const item = files[i];
+                setBlobs(oldBlobs => [...oldBlobs, new Blob([item], {type: item.type})]);
+            }
+        }
     }
 
     return (
@@ -45,7 +71,7 @@ const NewEventTabUI = () => {
                     <Grid item md={6}>
                         <EventFromContainer>
                             <Typography variant={"h6"}>Select Event Dates</Typography>
-                            <Box sx={{display: "flex", flexDirection: "row", gap: "9%"}}>
+                            <Box sx={{display: "flex", flexDirection: "row", gap: "7%", width: "100%"}}>
                                 <LocalizationProvider dateAdapter={AdapterDateFns}>
                                     <DateTimePicker
                                         renderInput={(props) => <TextField {...props} />}
@@ -126,7 +152,17 @@ const NewEventTabUI = () => {
                         <EventFromContainer>
                             <Typography variant={"h6"}>Attach Photos</Typography>
                         </EventFromContainer>
-                        <PhotoButtonUI disabled/>
+                        <PhotoButtonUI onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageOnChange(e)}/>
+                        {blobs.length}
+                        <ImageList sx={{width: "100%", mb: 1}} cols={7}>
+                            {blobs.map(blob =>
+                                <ImageListItem onClick={() => setBlobs(blobs.filter(b => b != blob))}>
+                                    <Box component={"img"}
+                                         sx={{width: "100%", height: 64, objectFit: "cover"}}
+                                         src={URL.createObjectURL(blob)}
+                                    />
+                                </ImageListItem>)}
+                        </ImageList>
                     </Grid>
                 </Grid>
                 <Grid item md={12} sx={{display: "flex"}}>

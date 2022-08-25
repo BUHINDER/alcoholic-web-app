@@ -1,8 +1,7 @@
 import React from 'react';
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {RootState} from "../Store";
-import {EventDto} from "../../dto/EventDto";
-import {EventEntity} from "../../entity/EventEntity";
+import {FullEventDto} from "../../dto/FullEventDto";
 
 export const eventApi = createApi({
     reducerPath: "event",
@@ -20,23 +19,23 @@ export const eventApi = createApi({
     }),
     tagTypes: ["EVENT", "OWN_EVENTS"],
     endpoints: (build) => ({
-        getAllEvents: build.query<EventDto[], void>({
+        getAllEvents: build.query<FullEventDto[], void>({
             query: () => ({
                 url: ""
             }),
             providesTags: () => ["EVENT"]
         }),
-        getAllOwnEvents: build.query<EventDto[], void>({
+        getAllOwnEvents: build.query<FullEventDto[], void>({
             query: () => ({
                 url: "/own"
             }),
             providesTags: () => ["OWN_EVENTS"]
         }),
-        postEvent: build.mutation<void, EventEntity>({
-            query: (event: EventEntity) => ({
+        postEvent: build.mutation<void, FormData>({
+            query: (formData: FormData) => ({
                 url: "",
                 method: "POST",
-                body: event
+                body: formData
             }),
             invalidatesTags: () => ["EVENT"]
         })
