@@ -24,8 +24,14 @@ export const userApi = createApi({
                 url: `/${email}`,
             }),
             providesTags: () => ["USER"]
+        }),
+        getOwnInfo: build.query<UserResponse, void>({
+            query: () => ({
+                url: "/own",
+            }),
+            providesTags: () => ["USER"]
         })
     })
 });
 
-export const {useLazyGetUserByEmailQuery} = userApi;
+export const {useLazyGetUserByEmailQuery, useLazyGetOwnInfoQuery} = userApi;

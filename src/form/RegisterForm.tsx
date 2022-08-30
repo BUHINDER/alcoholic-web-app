@@ -30,7 +30,7 @@ const initialState = {
 const RegisterForm = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [user, setUser] = useState<UserEntity>(initialState);
-    const [register, {isLoading}] = useRegisterMutation();
+    const [register, {isLoading, isSuccess}] = useRegisterMutation();
 
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
         return setUser({...user, [e.target.name]: e.target.value});
@@ -39,7 +39,11 @@ const RegisterForm = () => {
     function handleOnClick(e: MouseEvent<HTMLElement>) {
         e.preventDefault();
         register(user)
-            .then(() => setUser(initialState));
+            .then(() => {
+                if (isSuccess) {
+                    setUser(initialState)
+                }
+            });
     }
 
     return (
@@ -82,7 +86,6 @@ const RegisterForm = () => {
                                    placeholder={"Age"}
                                    label={"Age"}
                                    name={"age"}
-                                   required
                                    onChange={handleOnChange}
                                    value={user.age}
                                    autoFocus

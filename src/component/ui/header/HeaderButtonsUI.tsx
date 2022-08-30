@@ -19,13 +19,6 @@ const HeaderButtonsUI = () => {
     return (
         <TabContext value={`${tabValue}`}>
             <Tabs value={tabValue} onChange={handleChange} variant={"fullWidth"}>
-                <Tab label={"Home"}
-                     component={"a"}
-                     sx={{color: "black"}}
-                     onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
-                         handleClick(e, "/")
-                     }
-                />
                 <Tab label={"Events"}
                      component={"a"}
                      sx={{color: "black"}}
