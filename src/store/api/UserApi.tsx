@@ -17,21 +17,23 @@ export const userApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["USER"],
     endpoints: (build) => ({
         getUserByEmail: build.query<UserResponse, string>({
             query: (email: string) => ({
-                url: `/${email}`,
+                url: `/email/${email}`,
             }),
-            providesTags: () => ["USER"]
+        }),
+        getUserById: build.query<UserResponse, string>({
+            query: (id: string) => ({
+                url: `/${id}`,
+            }),
         }),
         getOwnInfo: build.query<UserResponse, void>({
             query: () => ({
                 url: "/own",
             }),
-            providesTags: () => ["USER"]
         })
     })
 });
 
-export const {useLazyGetUserByEmailQuery, useLazyGetOwnInfoQuery} = userApi;
+export const {useLazyGetUserByEmailQuery, useLazyGetOwnInfoQuery, useLazyGetUserByIdQuery} = userApi;

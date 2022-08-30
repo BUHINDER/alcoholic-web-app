@@ -1,10 +1,10 @@
 import React from 'react';
 import {Grid} from "@mui/material";
 import EventPreviewUI from "../EventPreviewUI";
-import {useGetAllEventsQuery} from "../../../../store/api/EventApi";
-import LoaderUI from "../../LoaderUI";
+import {useGetAllEventsQuery} from "../../../../../store/api/EventApi";
+import LoaderUI from "../../../LoaderUI";
 import {TabPanel} from "@mui/lab";
-import {FullEventDto} from "../../../../dto/FullEventDto";
+import {FullEventDto} from "../../../../../dto/FullEventDto";
 
 const SearchEventTabUI = () => {
     const {data = [], isLoading} = useGetAllEventsQuery();

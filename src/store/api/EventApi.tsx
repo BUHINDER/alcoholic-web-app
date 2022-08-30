@@ -26,6 +26,11 @@ export const eventApi = createApi({
             }),
             providesTags: () => ["EVENT"]
         }),
+        getEvent: build.query<FullEventDto, string>({
+            query: (id: string) => ({
+                url: `/${id}`
+            })
+        }),
         getAllOwnEvents: build.query<EventDto[], void>({
             query: () => ({
                 url: "/own"
@@ -43,4 +48,4 @@ export const eventApi = createApi({
     })
 });
 
-export const {useGetAllEventsQuery, usePostEventMutation, useLazyGetAllOwnEventsQuery} = eventApi;
+export const {useGetAllEventsQuery, usePostEventMutation, useLazyGetAllOwnEventsQuery, useLazyGetEventQuery} = eventApi;
