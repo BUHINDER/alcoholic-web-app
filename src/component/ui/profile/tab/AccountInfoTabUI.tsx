@@ -1,29 +1,69 @@
 import {TabPanel} from "@mui/lab";
-import {Box, Button} from "@mui/material";
-import ProfileFieldUI from "./ProfileFieldUI";
-import React, {FormEvent, useState} from "react";
-import PhotoButtonUI from "../../util/PhotoButtonUI";
+import {Box, TextField} from "@mui/material";
+import React, {FormEvent, useEffect, useState} from "react";
+import {useLazyGetOwnInfoQuery} from "../../../../store/api/UserApi";
+import {UserResponse} from "../../../../dto/reponse/UserResponse";
 
 const AccountInfoTabUI = () => {
-    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [getOwnInfo] = useLazyGetOwnInfoQuery();
+    const [user, setUser] = useState<UserResponse>();
+
+    useEffect(() => {
+        getOwnInfo().unwrap().then(res => setUser(res));
+    }, []);
 
     function handleSubmit(e: FormEvent<HTMLDivElement>) {
         e.preventDefault()
-        return setIsEditing(false);
     }
 
     return (
         <TabPanel value={"0"}>
             <Box component={"form"} onSubmit={(e: FormEvent<HTMLDivElement>) => handleSubmit(e)}>
-                <ProfileFieldUI fieldLabel={"First Name"} isEnabled={isEditing}/>
-                <ProfileFieldUI fieldLabel={"Last Name"} isEnabled={isEditing}/>
-                <ProfileFieldUI fieldLabel={"Age"} isEnabled={isEditing}/>
-                <ProfileFieldUI fieldLabel={"Email"} isEnabled={isEditing}/>
-                <PhotoButtonUI/>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"First Name"}
+                        id={"firstname"}
+                        value={user?.firstname}
+                        disabled
+                        fullWidth
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"Last Name"}
+                        id={"lastName"}
+                        value={user?.lastName}
+                        disabled
+                        fullWidth
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"Age"}
+                        id={"age"}
+                        value={user?.age}
+                        disabled
+                        fullWidth
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"Email"}
+                        id={"email"}
+                        value={user?.email}
+                        disabled
+                        fullWidth
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
             </Box>
-            {!isEditing &&
-                <Button variant={"contained"} onClick={() => setIsEditing(true)}>Edit</Button>}
-            {isEditing && <Button variant={"contained"} onClick={() => setIsEditing(false)}>Save</Button>}
         </TabPanel>
     );
 };

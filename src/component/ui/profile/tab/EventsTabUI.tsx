@@ -1,13 +1,6 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {TabPanel} from "@mui/lab";
 import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Checkbox,
-    FormControl,
-    FormControlLabel,
-    FormGroup,
     Table,
     TableBody,
     TableCell,
@@ -19,11 +12,11 @@ import {
 } from "@mui/material";
 import TablePaginationActions from "@mui/material/TablePagination/TablePaginationActions";
 import {EventDto} from "../../../../dto/EventDto";
-import {useGetAllOwnEventsQuery} from "../../../../store/api/EventApi";
 import {epochToDate} from "../../../../util/DateUtil";
+import {useLazyGetAllOwnEventsQuery} from "../../../../store/api/EventApi";
 
 const EventsTabUI = () => {
-    const {data = []} = useGetAllOwnEventsQuery();
+    const [trigger, {data = []}] = useLazyGetAllOwnEventsQuery();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0;
@@ -37,55 +30,16 @@ const EventsTabUI = () => {
         participant: false,
     });
 
+    useEffect(() => {
+        trigger();
+    }, [])
+
     function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
         setFilter({...filter, [event.target.name]: event.target.checked});
     }
 
     return (
         <TabPanel value={"1"}>
-            <Accordion>
-                <AccordionSummary>Filters</AccordionSummary>
-                <AccordionDetails>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormGroup>
-                            <FormControlLabel
-                                checked={filter.completed}
-                                control={<Checkbox onChange={handleChange}/>}
-                                label={"Completed"}
-                                name={"completed"}
-                            />
-                            <FormControlLabel
-                                checked={filter.active}
-                                control={<Checkbox onChange={handleChange}/>}
-                                label={"Active"}
-                                name={"active"}
-                            />
-                            <FormControlLabel
-                                checked={filter.scheduled}
-                                control={<Checkbox onChange={handleChange}/>}
-                                label={"Scheduled"}
-                                name={"scheduled"}
-                            />
-                        </FormGroup>
-                    </FormControl>
-                    <FormControl component="fieldset" variant="standard">
-                        <FormGroup>
-                            <FormControlLabel
-                                checked={filter.owner}
-                                control={<Checkbox onChange={handleChange}/>}
-                                label={"Owner"}
-                                name={"owner"}
-                            />
-                            <FormControlLabel
-                                checked={filter.participant}
-                                control={<Checkbox onChange={handleChange}/>}
-                                label={"Participant"}
-                                name={"participant"}
-                            />
-                        </FormGroup>
-                    </FormControl>
-                </AccordionDetails>
-            </Accordion>
             <TableContainer>
                 <Table sx={{minWidth: "100%"}}>
                     <TableHead>

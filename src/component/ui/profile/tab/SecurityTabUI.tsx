@@ -1,16 +1,48 @@
 import React from 'react';
 import {TabPanel} from "@mui/lab";
-import {Box, Button, Typography} from "@mui/material";
-import ProfileFieldUI from "./ProfileFieldUI";
+import {Box, Button, TextField, Typography} from "@mui/material";
 
 const SecurityTabUI = () => {
     return (
         <TabPanel value={"2"}>
             <Typography variant={"body1"}>CHANGE PASSWORD</Typography>
             <Box component={"form"}>
-                <ProfileFieldUI fieldLabel={"Current Password"} isEnabled={true}/>
-                <ProfileFieldUI fieldLabel={"New Password"} isEnabled={true}/>
-                <ProfileFieldUI fieldLabel={"Confirm Password"} isEnabled={true}/>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"Current Password"}
+                        value={""}
+                        onChange={e => {
+                        }}
+                        fullWidth
+                        disabled={false}
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"New Password"}
+                        value={""}
+                        onChange={e => {
+                        }}
+                        fullWidth
+                        disabled={false}
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
+                <Box sx={{mt: 1, mb: 1,}}>
+                    <TextField
+                        label={"Confirm Password"}
+                        value={""}
+                        onChange={e => {
+                        }}
+                        fullWidth
+                        disabled={false}
+                        size={"small"}
+                        variant={"standard"}
+                    />
+                </Box>
             </Box>
             <Button variant={"contained"}>Save</Button>
         </TabPanel>

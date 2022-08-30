@@ -2,6 +2,7 @@ import React from 'react';
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {RootState} from "../Store";
 import {FullEventDto} from "../../dto/FullEventDto";
+import {EventDto} from "../../dto/EventDto";
 
 export const eventApi = createApi({
     reducerPath: "event",
@@ -25,7 +26,7 @@ export const eventApi = createApi({
             }),
             providesTags: () => ["EVENT"]
         }),
-        getAllOwnEvents: build.query<FullEventDto[], void>({
+        getAllOwnEvents: build.query<EventDto[], void>({
             query: () => ({
                 url: "/own"
             }),
@@ -42,4 +43,4 @@ export const eventApi = createApi({
     })
 });
 
-export const {useGetAllEventsQuery, usePostEventMutation, useGetAllOwnEventsQuery} = eventApi;
+export const {useGetAllEventsQuery, usePostEventMutation, useLazyGetAllOwnEventsQuery} = eventApi;
