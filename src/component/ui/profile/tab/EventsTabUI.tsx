@@ -14,8 +14,10 @@ import TablePaginationActions from "@mui/material/TablePagination/TablePaginatio
 import {EventDto} from "../../../../dto/EventDto";
 import {epochToDate} from "../../../../util/DateUtil";
 import {useLazyGetAllOwnEventsQuery} from "../../../../store/api/EventApi";
+import {useNavigate} from "react-router-dom";
 
 const EventsTabUI = () => {
+    const navigate = useNavigate();
     const [trigger, {data = []}] = useLazyGetAllOwnEventsQuery();
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -65,7 +67,9 @@ const EventsTabUI = () => {
 
     function mapEventRowsCell(event: EventDto) {
         return (
-            <TableRow key={event.id}>
+            <TableRow key={event.id}
+                      sx={{cursor: "pointer", ":hover": {background: "rgba(0,53,255,0.05)"}}}
+                      onClick={() => navigate(`/events/${event.id}`)}>
                 <TableCell component="th" scope="row">
                     {event.title}
                 </TableCell>

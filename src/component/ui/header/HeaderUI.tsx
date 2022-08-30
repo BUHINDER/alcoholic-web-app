@@ -2,8 +2,10 @@ import React from 'react';
 import {AppBar, Box, Container, Toolbar, Typography} from "@mui/material";
 import ProfileUI from "../profile/ProfileUI";
 import HeaderButtonsUI from "./HeaderButtonsUI";
+import {useNavigate} from "react-router-dom";
 
 const HeaderUI = () => {
+    const navigate = useNavigate();
     return (
         <AppBar position="static">
             <Toolbar
@@ -20,7 +22,11 @@ const HeaderUI = () => {
                     flexDirection: "row",
                     alignItems: "center",
                 }}>
-                    <Typography variant="h6" color="black">
+                    <Typography variant="h6"
+                                color="black"
+                                onClick={() => navigate("/")}
+                                sx={{cursor: "pointer"}}
+                    >
                         Buhinder
                     </Typography>
                     <Box sx={{flexGrow: 1}}/>

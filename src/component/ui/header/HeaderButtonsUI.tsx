@@ -21,6 +21,7 @@ const HeaderButtonsUI = () => {
             <Tabs value={tabValue} onChange={handleChange} variant={"fullWidth"}>
                 <Tab label={"Events"}
                      component={"a"}
+                     value={0}
                      sx={{color: "black"}}
                      onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
                          handleClick(e, "/events")

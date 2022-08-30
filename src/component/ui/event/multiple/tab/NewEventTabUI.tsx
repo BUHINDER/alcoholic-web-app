@@ -1,14 +1,14 @@
 import React, {FC, FormEvent, ReactNode, useState} from 'react';
 import {TabPanel} from "@mui/lab";
 import {Box, Button, Grid, ImageList, ImageListItem, TextField, Typography} from "@mui/material";
-import {EventEntity} from "../../../../entity/EventEntity";
-import {EventType} from "../../../../dto/EventType";
+import {EventEntity} from "../../../../../entity/EventEntity";
+import {EventType} from "../../../../../dto/EventType";
 import {DateTimePicker, LocalizationProvider} from "@mui/x-date-pickers";
 import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
-import {usePostEventMutation} from "../../../../store/api/EventApi";
-import PhotoButtonUI from "../../util/PhotoButtonUI";
-import ErrorAlertUI from "../../util/ErrorAlertUI";
-import SuccessAlertUI from "../../util/SuccessAlertUI";
+import {usePostEventMutation} from "../../../../../store/api/EventApi";
+import PhotoButtonUI from "../../../util/PhotoButtonUI";
+import ErrorAlertUI from "../../../util/ErrorAlertUI";
+import SuccessAlertUI from "../../../util/SuccessAlertUI";
 
 const initialState: EventEntity = {
     title: "",

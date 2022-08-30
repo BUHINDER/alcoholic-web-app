@@ -1,13 +1,16 @@
 import React, {FC} from 'react';
 import {Button, ButtonGroup, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
-import {EventType} from "../../../dto/EventType";
-import {FullEventDto} from "../../../dto/FullEventDto";
+import {FullEventDto} from "../../../../dto/FullEventDto";
+import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../../../../store/hook/Redux";
 
 interface IEventPreview {
     fullEvent: FullEventDto,
 }
 
 const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
+    const {jwt} = useAppSelector(state => state.authReducer);
+    const navigate = useNavigate();
     const event = fullEvent.event;
 
     return (
@@ -22,7 +25,7 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                            image={
                                fullEvent.images.length > 0
                                    ? `http://localhost:8082/api/alcoparty/image/${fullEvent.images[0]}`
-                                   : require("../../../image/1.jpg")
+                                   : require("../../../../image/1.jpg")
                            }
                            alt={event.title}
                            sx={{objectFit: "cover", maxHeight: "15rem", minHeight: "15rem", width: "100%"}}
@@ -36,8 +39,8 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                     </Typography>
                 </CardContent>
                 <ButtonGroup variant={"text"} fullWidth>
-                    <Button>View</Button>
-                    <Button>{event.type == EventType.APPROVE ? "Request" : "Join"}</Button>
+                    <Button onClick={() => navigate(`/events/${event.id}`)}>View</Button>
+                    {jwt?.sub !== event.createdBy && <Button>Join</Button>}
                 </ButtonGroup>
             </Card>
         </Grid>
