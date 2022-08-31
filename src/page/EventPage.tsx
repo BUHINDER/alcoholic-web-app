@@ -1,6 +1,6 @@
 import React, {FC, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
-import {useLazyGetEventQuery} from "../store/api/EventApi";
+import {useJoinEventMutation, useLazyGetEventQuery} from "../store/api/EventApi";
 import {EventDto} from "../dto/EventDto";
 import {
     Box,
@@ -10,6 +10,7 @@ import {
     Container,
     Grid,
     Tab,
+    Table,
     TableBody,
     TableCell,
     TableContainer,
@@ -43,6 +44,8 @@ const Field: FC<IField> = ({name, value}) => {
 
 //todo MUST be refactored
 const EventPage = () => {
+    const [joinEvent, {isError, isSuccess}] = useJoinEventMutation();
+    const [isJoinable, setIsJoinable] = useState<boolean>();
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const {id} = useParams();
     const {jwt} = useAppSelector(state => state.authReducer);
@@ -51,8 +54,8 @@ const EventPage = () => {
     const [images, setImages] = useState<string[]>([]);
     const [owner, setOwner] = useState<string>("");
     const [participants, setParticipants] = useState<UserResponse[]>([]);
-    const [getUserById, {isLoading: isUserLoading}] = useLazyGetUserByIdQuery();
-    const [getEventTrigger, {isLoading: isEventLoading}] = useLazyGetEventQuery();
+    const [getUserById] = useLazyGetUserByIdQuery();
+    const [getEventTrigger] = useLazyGetEventQuery();
     const [tabValue, setTabValue] = useState<number>(0);
 
     function handleChange(event: React.SyntheticEvent, newValue: number) {
@@ -69,11 +72,12 @@ const EventPage = () => {
                         .then(p => setParticipants(prev => [...prev, p])));
                 getUserById(res.event.createdBy).unwrap().then(user => setOwner(buildUserFullName(user)));
                 setIsOwner(jwt?.sub === res.event.createdBy!!);
+                setIsJoinable(!isOwner && !res.participants.includes(jwt?.sub!!, 0));
             })
             .finally(() => setIsLoading(false));
-    }, []);
+    }, [getEventTrigger, getUserById, id, jwt?.sub]);
 
-    if (isLoading || isUserLoading || isEventLoading) {
+    if (isLoading) {
         return (
             <LoaderUI/>
         );
@@ -122,19 +126,21 @@ const EventPage = () => {
                         </TabPanel>
                         <TabPanel value={"1"}>
                             <TableContainer>
-                                <TableBody>
-                                    {participants.map(p => (
-                                        <TableRow>
-                                            <TableCell>{buildUserFullName(p)}</TableCell>
-                                        </TableRow>
-                                    ))}
-                                </TableBody>
+                                <Table>
+                                    <TableBody>
+                                        {participants.map(p => (
+                                            <TableRow key={p.id}>
+                                                <TableCell>{buildUserFullName(p)}</TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
                             </TableContainer>
                         </TabPanel>
                     </TabContext>
                 </Grid>
                 <Grid item md={12} sx={{display: "flex", justifyContent: "flex-end"}}>
-                    {!isOwner && <Button variant={"contained"}>Join</Button>}
+                    {isJoinable && <Button variant={"contained"} onClick={() => joinEvent(event?.id!!)}>Join</Button>}
                 </Grid>
             </Grid>
         </Container>

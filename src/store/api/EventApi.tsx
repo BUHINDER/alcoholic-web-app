@@ -18,18 +18,19 @@ export const eventApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["EVENT", "OWN_EVENTS"],
+    tagTypes: ["EVENT", "OWN_EVENTS", "SINGLE_EVENT"],
     endpoints: (build) => ({
         getAllEvents: build.query<FullEventDto[], void>({
             query: () => ({
                 url: ""
             }),
-            providesTags: () => ["EVENT"]
+            providesTags: ["EVENT"]
         }),
         getEvent: build.query<FullEventDto, string>({
             query: (id: string) => ({
                 url: `/${id}`
-            })
+            }),
+            providesTags: ["SINGLE_EVENT"]
         }),
         getAllOwnEvents: build.query<EventDto[], void>({
             query: () => ({
@@ -44,8 +45,21 @@ export const eventApi = createApi({
                 body: formData
             }),
             invalidatesTags: () => ["EVENT"]
-        })
+        }),
+        joinEvent: build.mutation<{ id: string }, string>({
+            query: (eventId: string) => ({
+                url: `/join/${eventId}`,
+                method: "PUT",
+            }),
+            invalidatesTags: () => ["EVENT", "SINGLE_EVENT"]
+        }),
     })
 });
 
-export const {useGetAllEventsQuery, usePostEventMutation, useLazyGetAllOwnEventsQuery, useLazyGetEventQuery} = eventApi;
+export const {
+    useGetAllEventsQuery,
+    usePostEventMutation,
+    useLazyGetAllOwnEventsQuery,
+    useLazyGetEventQuery,
+    useJoinEventMutation,
+} = eventApi;

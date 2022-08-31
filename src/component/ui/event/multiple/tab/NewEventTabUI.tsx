@@ -33,10 +33,8 @@ const NewEventTabUI = () => {
         blobs.map(blob => formData.append("images", blob));
         saveEvent(formData)
             .then(() => {
-                if (isSuccess) {
-                    setEventEntity(initialState);
-                    setBlobs([]);
-                }
+                setEventEntity(initialState);
+                setBlobs([]);
             });
     }
 
@@ -53,8 +51,8 @@ const NewEventTabUI = () => {
     return (
         <TabPanel value={"0"}
                   sx={{display: "flex", flexDirection: "column", flex: "1 0 auto", position: "relative", padding: 0}}>
-            {isSuccess && <SuccessAlertUI/>}
-            {isError && <ErrorAlertUI/>}
+            {isSuccess && <SuccessAlertUI message={"Event successfully created!"}/>}
+            {isError && <ErrorAlertUI message={"Error creating event!"}/>}
             <form onSubmit={e => handleOnSubmit(e)}>
                 <Grid container spacing={3}>
                     <Grid item md={6}>

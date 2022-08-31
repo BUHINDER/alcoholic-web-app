@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Alert} from "@mui/material";
 
-const SuccessAlertUI = () => {
+export interface ISuccessAlertUI {
+    message: string
+}
+
+const SuccessAlertUI: FC<ISuccessAlertUI> = ({message}) => {
     return (
         <Alert sx={{position: "absolute", display: "flex", width: "100%"}} severity={"success"}>
-            Event successfully created!
+            {message}
         </Alert>
     );
 };
