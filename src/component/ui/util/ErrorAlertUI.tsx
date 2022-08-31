@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {FC} from 'react';
 import {Alert} from "@mui/material";
 
-const ErrorAlertUI = () => {
+export interface IErrorAlertUI {
+    message: string
+}
+
+const ErrorAlertUI: FC<IErrorAlertUI> = ({message}) => {
     return (
         <Alert sx={{position: "absolute", display: "flex", width: "100%"}} severity={"error"}>
-            Error creating event!
+            {message && message}
         </Alert>
     );
 };

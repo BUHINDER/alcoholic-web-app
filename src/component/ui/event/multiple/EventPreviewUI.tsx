@@ -3,12 +3,14 @@ import {Button, ButtonGroup, Card, CardContent, CardMedia, Grid, Typography} fro
 import {FullEventDto} from "../../../../dto/FullEventDto";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../../store/hook/Redux";
+import {useJoinEventMutation} from "../../../../store/api/EventApi";
 
 interface IEventPreview {
     fullEvent: FullEventDto,
 }
 
 const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
+    const [joinEvent] = useJoinEventMutation();
     const {jwt} = useAppSelector(state => state.authReducer);
     const navigate = useNavigate();
     const event = fullEvent.event;
@@ -39,8 +41,15 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                     </Typography>
                 </CardContent>
                 <ButtonGroup variant={"text"} fullWidth>
-                    <Button onClick={() => navigate(`/events/${event.id}`)}>View</Button>
-                    {jwt?.sub !== event.createdBy && <Button>Join</Button>}
+                    <Button onClick={() => navigate(`/events/${event.id}`)} variant={"outlined"}>View</Button>
+                    {jwt?.sub !== event.createdBy
+                        && !fullEvent.participants.includes(jwt?.sub!!, 0)
+                        && <Button onClick={() => joinEvent(event.id)}
+                                   variant={"contained"}
+                        >
+                            Join
+                        </Button>
+                    }
                 </ButtonGroup>
             </Card>
         </Grid>

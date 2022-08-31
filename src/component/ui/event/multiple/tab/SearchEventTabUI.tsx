@@ -12,13 +12,17 @@ const SearchEventTabUI = () => {
     return (
         <TabPanel value={"1"}>
             {isLoading && <LoaderUI/>}
-            {data.length == 0 &&
+            {data.length === 0 &&
                 <Grid container sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
                     <h2>There are no events available</h2>
                 </Grid>
             }
             <Grid container spacing={3}>
-                {data.map((event: FullEventDto) => <EventPreviewUI key={event.event.id} fullEvent={event}/>)}
+                {data.map((event: FullEventDto) =>
+                    <EventPreviewUI key={event.event.id}
+                                    fullEvent={event}
+                    />
+                )}
             </Grid>
         </TabPanel>
     );
