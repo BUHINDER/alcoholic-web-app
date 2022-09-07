@@ -58,7 +58,13 @@ const NewEventTabUI = () => {
 
     return (
         <TabPanel value={"0"}
-                  sx={{display: "flex", flexDirection: "column", flex: "1 0 auto", position: "relative", padding: 0}}>
+                  sx={{
+                      display: "flex",
+                      flexDirection: "column",
+                      flex: "1 0 auto",
+                      position: "relative",
+                      padding: 0
+                  }}>
             {isSuccess && <SuccessAlertUI message={"Event successfully created!"}/>}
             {isError && <ErrorAlertUI message={"Error creating event!"}/>}
             <form onSubmit={e => handleOnSubmit(e)}>
@@ -120,7 +126,8 @@ const NewEventTabUI = () => {
                         <EventFromContainer>
                             <Typography variant={"h6"}>Attach Photos</Typography>
                         </EventFromContainer>
-                        <PhotoButtonUI onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageOnChange(e)}/>
+                        <PhotoButtonUI
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleImageOnChange(e)}/>
                         {blobs.length}
                         <ImageList sx={{width: "100%", mb: 1}} cols={7}>
                             {blobs.map(blob =>
