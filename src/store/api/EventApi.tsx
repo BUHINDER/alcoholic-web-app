@@ -18,25 +18,25 @@ export const eventApi = createApi({
             return headers
         }
     }),
-    tagTypes: ["EVENT", "OWN_EVENTS", "SINGLE_EVENT"],
+    tagTypes: ["EVENTS", "OWN_EVENTS", "SINGLE_EVENT"],
     endpoints: (build) => ({
         getAllEvents: build.query<FullEventDto[], void>({
             query: () => ({
                 url: ""
             }),
-            providesTags: ["EVENT"]
+            providesTags: ["EVENTS"],
         }),
         getEvent: build.query<FullEventDto, string>({
             query: (id: string) => ({
                 url: `/${id}`
             }),
-            providesTags: ["SINGLE_EVENT"]
+            providesTags: ["SINGLE_EVENT"],
         }),
         getAllOwnEvents: build.query<EventDto[], void>({
             query: () => ({
                 url: "/own"
             }),
-            providesTags: () => ["OWN_EVENTS"]
+            providesTags: () => ["OWN_EVENTS"],
         }),
         postEvent: build.mutation<void, FormData>({
             query: (formData: FormData) => ({
@@ -44,14 +44,28 @@ export const eventApi = createApi({
                 method: "POST",
                 body: formData
             }),
-            invalidatesTags: () => ["EVENT"]
+            invalidatesTags: () => ["EVENTS"],
         }),
         joinEvent: build.mutation<{ id: string }, string>({
             query: (eventId: string) => ({
                 url: `/join/${eventId}`,
                 method: "PUT",
             }),
-            invalidatesTags: () => ["EVENT", "SINGLE_EVENT"]
+            invalidatesTags: () => ["EVENTS"],
+        }),
+        leaveEvent: build.mutation<{ id: string }, string>({
+            query: (eventId: string) => ({
+                url: `/leave/${eventId}`,
+                method: "PUT",
+            }),
+            invalidatesTags: () => ["EVENTS"],
+        }),
+        disbandEvent: build.mutation<{ id: string }, string>({
+            query: (eventId: string) => ({
+                url: `/disband/${eventId}`,
+                method: "PUT",
+            }),
+            invalidatesTags: () => ["EVENTS"],
         }),
     })
 });
@@ -62,4 +76,6 @@ export const {
     useLazyGetAllOwnEventsQuery,
     useLazyGetEventQuery,
     useJoinEventMutation,
+    useLeaveEventMutation,
+    useDisbandEventMutation,
 } = eventApi;
