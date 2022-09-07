@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 
 const initialState = {
@@ -28,9 +28,10 @@ const initialState = {
 }
 
 const RegisterForm = () => {
+    const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [user, setUser] = useState<UserEntity>(initialState);
-    const [register, {isLoading, isSuccess}] = useRegisterMutation();
+    const [register, {isLoading}] = useRegisterMutation();
 
     function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
         return setUser({...user, [e.target.name]: e.target.value});
@@ -39,9 +40,12 @@ const RegisterForm = () => {
     function handleOnClick(e: MouseEvent<HTMLElement>) {
         e.preventDefault();
         register(user)
-            .then(() => {
-                if (isSuccess) {
-                    setUser(initialState)
+            .then(res => {
+                //todo FT-37
+                // @ts-ignore
+                if (res.data) {
+                    setUser(initialState);
+                    navigate("/login", {replace: true});
                 }
             });
     }
@@ -151,11 +155,6 @@ const RegisterForm = () => {
                         </LoadingButton>
                     </Box>
                     <Grid container sx={{display: "flex", flexDirection: "column"}}>
-                        <Grid item xs>
-                            <Link to={"/restore"}>
-                                {"Forgot password?"}
-                            </Link>
-                        </Grid>
                         <Grid item>
                             <Link to={"/login"}>
                                 {"Already have an account? Sign In"}

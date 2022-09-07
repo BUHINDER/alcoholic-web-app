@@ -31,7 +31,14 @@ const LoginForm = () => {
 
     const handleOnClick = (e: React.FormEvent<HTMLDivElement>) => {
         e.preventDefault();
-        return login(user).then(() => navigate("/", {replace: true}))
+        login(user)
+            .then(res => {
+                //todo FT-37
+                // @ts-ignore
+                if (res.data) {
+                    navigate("/", {replace: true})
+                }
+            });
     };
 
     return (
@@ -93,11 +100,6 @@ const LoginForm = () => {
                     </LoadingButton>
                 </Box>
                 <Grid container sx={{display: "flex", flexDirection: "column"}}>
-                    <Grid item xs>
-                        <Link to={"/restore"}>
-                            {"Forgot password?"}
-                        </Link>
-                    </Grid>
                     <Grid item>
                         <Link to={"/register"}>
                             {"Don't have an account? Sign Up"}
