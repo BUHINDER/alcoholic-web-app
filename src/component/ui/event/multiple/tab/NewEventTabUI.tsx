@@ -9,6 +9,7 @@ import {usePostEventMutation} from "../../../../../store/api/EventApi";
 import PhotoButtonUI from "../../../util/PhotoButtonUI";
 import ErrorAlertUI from "../../../util/ErrorAlertUI";
 import SuccessAlertUI from "../../../util/SuccessAlertUI";
+import {useNavigate} from "react-router-dom";
 
 const initialState: EventEntity = {
     title: "",
@@ -22,6 +23,7 @@ const initialState: EventEntity = {
 }
 
 const NewEventTabUI = () => {
+    const navigate = useNavigate();
     const formData = new FormData();
     const [blobs, setBlobs] = useState<Blob[]>([]);
     const [eventEntity, setEventEntity] = useState<EventEntity>(initialState);
@@ -32,9 +34,15 @@ const NewEventTabUI = () => {
         formData.append("event", new Blob([JSON.stringify(eventEntity)], {type: 'application/json'}));
         blobs.map(blob => formData.append("images", blob));
         saveEvent(formData)
-            .then(() => {
-                setEventEntity(initialState);
-                setBlobs([]);
+            .then((res) => {
+                //todo FT-37
+                // @ts-ignore
+                const response = res.data;
+                if (response) {
+                    setEventEntity(initialState);
+                    setBlobs([]);
+                    navigate(`/events/${response.event.id}`, {replace: true});
+                }
             });
     }
 
