@@ -1,16 +1,15 @@
 import React, {FC} from 'react';
-import {Box, Button, ButtonGroup, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
+import {Box, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
 import {FullEventDto} from "../../../../dto/FullEventDto";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../../store/hook/Redux";
-import {useJoinEventMutation} from "../../../../store/api/EventApi";
+import EventButtonResolverUI from "../button/EventButtonResolverUI";
 
 interface IEventPreview {
     fullEvent: FullEventDto,
 }
 
 const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
-    const [joinEvent] = useJoinEventMutation();
     const {jwt} = useAppSelector(state => state.authReducer);
     const navigate = useNavigate();
     const event = fullEvent.event;
@@ -20,17 +19,17 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
     }
 
     return (
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid item xs={12} sm={6} md={4} lg={3}>
             <Box sx={{
                 cursor: "pointer",
                 "&:hover": {
-                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+                    filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.10))",
                 }
             }}>
                 <Card onClick={handleNavigateToEventCard}
                       sx={{
-                          maxHeight: "27rem",
-                          minHeight: "27rem",
+                          maxHeight: "30rem",
+                          minHeight: "30rem",
                           display: "flex",
                           flexDirection: "column",
                       }}>
@@ -52,16 +51,10 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                         </Typography>
                     </CardContent>
                 </Card>
-                <ButtonGroup variant={"text"} fullWidth>
-                    {jwt?.sub !== event.createdBy
-                        && !fullEvent.participants.includes(jwt?.sub!!, 0)
-                        && <Button onClick={() => joinEvent(event.id)}
-                                   variant={"contained"}
-                        >
-                            Join
-                        </Button>
-                    }
-                </ButtonGroup>
+                <EventButtonResolverUI eventId={event.id}
+                                       isOwner={jwt?.sub === event.createdBy}
+                                       isParticipant={fullEvent.participants.includes(jwt?.sub!!, 0)}
+                />
             </Box>
         </Grid>
     );
