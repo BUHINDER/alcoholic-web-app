@@ -10,6 +10,7 @@ import EventsPage from "./page/EventsPage";
 import PublicRouteComponent from "./component/auth/PublicRouteComponent";
 import PersistAuthComponent from "./component/auth/PersistAuthComponent";
 import EventPage from "./page/EventPage";
+import NotFoundPage from "./page/NotFoundPage";
 
 function App() {
     return (
@@ -23,12 +24,13 @@ function App() {
                     >
                         <Route index element={<EventsPage/>}/>
                         <Route path={"/profile"} element={<ProfilePage/>}/>
-                        <Route path={"/events"} element={<EventsPage/>}/>
-                        <Route path={"/events/:id"} element={<EventPage/>}/>
+                        <Route path={"/event/:id"} element={<EventPage/>}/>
+                        <Route path={"/*"} element={<NotFoundPage/>}/>
                     </Route
                     >
                     <Route path={"/login"} element={<PublicRouteComponent><LoginPage/></PublicRouteComponent>}/>
                     <Route path={"/register"} element={<PublicRouteComponent><RegisterPage/></PublicRouteComponent>}/>
+                    <Route path={"/*"} element={<NotFoundPage/>}/>
                 </Routes>
             </PersistAuthComponent>
         </div>

@@ -13,7 +13,7 @@ export interface IEventPageMainTab {
 }
 
 const EventPageMainTab: FC<IEventPageMainTab> = ({singleEvent, isOwner}) => {
-    const [tabValue, setTabValue] = useState<number>(1);
+    const [tabValue, setTabValue] = useState<number>(0);
     const [owner, setOwner] = useState<string>("");
     const [getUserById] = useLazyGetUserByIdQuery();
 

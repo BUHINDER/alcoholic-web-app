@@ -15,7 +15,7 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
     const event = fullEvent.event;
 
     function handleNavigateToEventCard() {
-        navigate(`/events/${event.id}`);
+        navigate(`/event/${event.id}`);
     }
 
     return (

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Tab, Tabs} from "@mui/material";
+import {Tabs} from "@mui/material";
 import {TabContext} from "@mui/lab";
 import {useNavigate} from "react-router-dom";
 
@@ -19,14 +19,6 @@ const HeaderButtonsUI = () => {
     return (
         <TabContext value={`${tabValue}`}>
             <Tabs value={tabValue} onChange={handleChange} variant={"fullWidth"}>
-                <Tab label={"Events"}
-                     component={"a"}
-                     value={0}
-                     sx={{color: "black"}}
-                     onClick={(e: React.MouseEvent<HTMLAnchorElement> | React.MouseEvent<HTMLDivElement>) =>
-                         handleClick(e, "/events")
-                     }
-                />
             </Tabs>
         </TabContext>
     );
