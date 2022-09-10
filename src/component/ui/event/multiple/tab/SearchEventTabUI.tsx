@@ -1,28 +1,43 @@
-import React from 'react';
-import {Grid} from "@mui/material";
+import React, {useEffect, useState} from 'react';
+import {Box, Grid} from "@mui/material";
 import EventPreviewUI from "../EventPreviewUI";
-import {useGetAllEventsQuery} from "../../../../../store/api/EventApi";
-import LoaderUI from "../../../LoaderUI";
 import {TabPanel} from "@mui/lab";
-import {MultipleEventDto} from "../../../../../dto/MultipleEventDto";
+import {useLazyGetAllEventsQuery} from "../../../../../store/api/EventApi";
+import {PaginationParamModel} from "../../../../../model/PaginationParamModel";
+import LoaderUI from "../../../LoaderUI";
+import PaginationUI from "../../../util/pagination/PaginationUI";
 
 const SearchEventTabUI = () => {
-    const {data = [], isLoading} = useGetAllEventsQuery();
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [getAllEvents, {data: eventsPageable}] = useLazyGetAllEventsQuery();
+    const [paginationParam, setPaginationParam] = useState<PaginationParamModel>({page: 0, pageSize: 10});
+
+    useEffect(() => {
+        getAllEvents(paginationParam)
+            .finally(() => setIsLoading(false));
+    }, [paginationParam]);
+
+    if (isLoading || !eventsPageable) {
+        return <LoaderUI/>;
+    }
 
     return (
         <TabPanel value={"1"}>
-            {isLoading && <LoaderUI/>}
-            {data.length === 0 &&
-                <Grid container sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
+            {eventsPageable.pagination.total === 0 &&
+                <Box sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
                     <h2>There are no events available</h2>
-                </Grid>
+                </Box>
             }
             <Grid container spacing={3}>
-                {data.map((event: MultipleEventDto) =>
+                {eventsPageable.data.map(event =>
                     <EventPreviewUI key={event.event.id}
-                                    fullEvent={event}
-                    />
-                )}
+                                    multipleEventResponse={event}/>)}
+                {eventsPageable.pagination.total > paginationParam.pageSize &&
+                    <Grid item xs={12} sm={12} md={12}
+                          sx={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+                        <PaginationUI setPaginationParam={setPaginationParam} pagination={eventsPageable.pagination}/>
+                    </Grid>
+                }
             </Grid>
         </TabPanel>
     );
