@@ -27,10 +27,16 @@ const ProfileUI = () => {
 
     return (
         <>
-            <Box sx={{display: "flex", alignItems: "center", textAlign: "center"}}>
+            <Box onClick={handleClick}
+                 sx={{
+                     display: "flex",
+                     alignItems: "center",
+                     textAlign: "center",
+                     cursor: "pointer",
+                 }}
+            >
                 <Typography sx={{color: "black"}}>{jwt ? jwt.context.displayName : "Unknown User"}</Typography>
                 <IconButton
-                    onClick={handleClick}
                     size="small"
                     sx={{ml: 2}}
                     aria-controls={open ? "account-menu" : undefined}
