@@ -1,12 +1,12 @@
 import React, {FC} from 'react';
 import {Box, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
-import {FullEventDto} from "../../../../dto/FullEventDto";
+import {MultipleEventDto} from "../../../../dto/MultipleEventDto";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../../store/hook/Redux";
 import EventButtonResolverUI from "../button/EventButtonResolverUI";
 
 interface IEventPreview {
-    fullEvent: FullEventDto,
+    fullEvent: MultipleEventDto,
 }
 
 const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
@@ -28,8 +28,8 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
             }}>
                 <Card onClick={handleNavigateToEventCard}
                       sx={{
-                          maxHeight: "30rem",
-                          minHeight: "30rem",
+                          maxHeight: "27rem",
+                          minHeight: "27rem",
                           display: "flex",
                           flexDirection: "column",
                       }}>
@@ -53,7 +53,8 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                 </Card>
                 <EventButtonResolverUI eventId={event.id}
                                        isOwner={jwt?.sub === event.createdBy}
-                                       isParticipant={fullEvent.participants.includes(jwt?.sub!!, 0)}
+                                       isParticipant={fullEvent.isParticipant}
+                                       fullWidth
                 />
             </Box>
         </Grid>

@@ -1,14 +1,17 @@
-import React, {FC} from 'react';
+import React from 'react';
 import {Button, ButtonGroup} from "@mui/material";
 import {useDisbandEventMutation, useJoinEventMutation, useLeaveEventMutation} from "../../../../store/api/EventApi";
+import {useNavigate} from "react-router-dom";
 
 export interface IEventButtonUI {
     eventId: string,
     isOwner: boolean,
     isParticipant: boolean,
+    fullWidth?: boolean,
 }
 
-const EventButtonResolverUI: FC<IEventButtonUI> = ({eventId, isOwner, isParticipant}) => {
+const EventButtonResolverUI = ({eventId, isOwner, isParticipant, fullWidth}: IEventButtonUI) => {
+    const navigate = useNavigate();
     const [joinEvent] = useJoinEventMutation();
     const [leaveEvent] = useLeaveEventMutation();
     const [disband] = useDisbandEventMutation();
@@ -22,11 +25,18 @@ const EventButtonResolverUI: FC<IEventButtonUI> = ({eventId, isOwner, isParticip
     }
 
     function onDisband() {
-        disband(eventId);
+        disband(eventId)
+            .then(res => {
+                //@ts-ignore
+                //todo BUH-37
+                if (res.data) {
+                    navigate("/", {replace: true})
+                }
+            })
     }
 
     return (
-        <ButtonGroup variant={"outlined"} fullWidth>
+        <ButtonGroup variant={"outlined"} fullWidth={fullWidth}>
             {!isOwner && !isParticipant && <Button onClick={onJoin}>Join</Button>}
             {isOwner && <Button onClick={onDisband} color={"error"}>Disband </Button>}
             {!isOwner && isParticipant && <Button onClick={onLeave} color={"error"}>Leave</Button>}
