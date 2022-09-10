@@ -1,7 +1,7 @@
-import {EventType} from "./EventType";
-import {EventStatus} from "./EventStatus";
+import {EventType} from "../EventType";
+import {EventStatus} from "../EventStatus";
 
-export interface EventDto {
+export interface EventResponse {
     id: string,
     title: string,
     info: string,

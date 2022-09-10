@@ -29,10 +29,10 @@ const EventButtonResolverUI = ({eventId, isOwner, isParticipant, fullWidth}: IEv
             .then(res => {
                 //@ts-ignore
                 //todo BUH-37
-                if (res.data) {
-                    navigate("/", {replace: true})
+                if (res.data === null) {
+                    navigate("/", {replace: true});
                 }
-            })
+            });
     }
 
     return (

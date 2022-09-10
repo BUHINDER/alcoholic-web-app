@@ -3,12 +3,12 @@ import {TabContext} from "@mui/lab";
 import {Tab, Tabs} from "@mui/material";
 import EventPageInfoTabUI from "./EventPageInfoTabUI";
 import EventPageParticipantsTabUI from "./EventPageParticipantsTabUI";
-import {SingleEventDto} from "../../../../../dto/SingleEventDto";
+import {SingleEventResponse} from "../../../../../dto/reponse/SingleEventResponse";
 import {buildUserFullName} from "../../../../../util/UserUtil";
 import {useLazyGetUserByIdQuery} from "../../../../../store/api/UserApi";
 
 export interface IEventPageMainTab {
-    singleEvent: SingleEventDto,
+    singleEvent: SingleEventResponse,
     isOwner: boolean,
 }
 

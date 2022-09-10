@@ -1,10 +1,12 @@
 import React from 'react';
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {RootState} from "../Store";
-import {MultipleEventDto} from "../../dto/MultipleEventDto";
-import {EventDto} from "../../dto/EventDto";
-import {SingleEventDto} from "../../dto/SingleEventDto";
+import {MultipleEventResponse} from "../../dto/reponse/MultipleEventResponse";
+import {EventResponse} from "../../dto/reponse/EventResponse";
+import {SingleEventResponse} from "../../dto/reponse/SingleEventResponse";
 import {IdResponse} from "../../dto/reponse/IdResponse";
+import {PaginationResponse} from "../../dto/reponse/PaginationResponse";
+import {PaginationParamModel} from "../../model/PaginationParamModel";
 
 export const eventApi = createApi({
     reducerPath: "event",
@@ -22,21 +24,23 @@ export const eventApi = createApi({
     }),
     tagTypes: ["EVENTS", "OWN_EVENTS", "SINGLE_EVENT"],
     endpoints: (build) => ({
-        getAllEvents: build.query<MultipleEventDto[], void>({
-            query: () => ({
-                url: ""
+        getAllEvents: build.query<PaginationResponse<MultipleEventResponse>, PaginationParamModel>({
+            query: (pagination) => ({
+                url: "",
+                params: pagination,
             }),
             providesTags: ["EVENTS"],
         }),
-        getEvent: build.query<SingleEventDto, string>({
+        getEvent: build.query<SingleEventResponse, string>({
             query: (id: string) => ({
                 url: `/${id}`
             }),
             providesTags: ["SINGLE_EVENT"],
         }),
-        getAllOwnEvents: build.query<EventDto[], void>({
-            query: () => ({
-                url: "/own"
+        getAllOwnEvents: build.query<PaginationResponse<EventResponse>, PaginationParamModel>({
+            query: (pagination) => ({
+                url: "/own",
+                params: pagination,
             }),
             providesTags: () => ["OWN_EVENTS"],
         }),
@@ -74,6 +78,7 @@ export const eventApi = createApi({
 
 export const {
     useGetAllEventsQuery,
+    useLazyGetAllEventsQuery,
     usePostEventMutation,
     useLazyGetAllOwnEventsQuery,
     useLazyGetEventQuery,

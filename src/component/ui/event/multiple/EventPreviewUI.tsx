@@ -1,18 +1,18 @@
 import React, {FC} from 'react';
 import {Box, Card, CardContent, CardMedia, Grid, Typography} from "@mui/material";
-import {MultipleEventDto} from "../../../../dto/MultipleEventDto";
+import {MultipleEventResponse} from "../../../../dto/reponse/MultipleEventResponse";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../../store/hook/Redux";
 import EventButtonResolverUI from "../button/EventButtonResolverUI";
 
 interface IEventPreview {
-    fullEvent: MultipleEventDto,
+    multipleEventResponse: MultipleEventResponse,
 }
 
-const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
+const EventPreviewUI: FC<IEventPreview> = ({multipleEventResponse}) => {
     const {jwt} = useAppSelector(state => state.authReducer);
     const navigate = useNavigate();
-    const event = fullEvent.event;
+    const event = multipleEventResponse.event;
 
     function handleNavigateToEventCard() {
         navigate(`/event/${event.id}`);
@@ -35,8 +35,8 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                       }}>
                     <CardMedia component="img"
                                image={
-                                   fullEvent.images.length > 0
-                                       ? `http://localhost:8082/api/alcoparty/image/${fullEvent.images[0]}`
+                                   multipleEventResponse.image
+                                       ? `http://localhost:8082/api/alcoparty/image/${multipleEventResponse.image}`
                                        : require("../../../../image/1.jpg")
                                }
                                alt={event.title}
@@ -53,7 +53,7 @@ const EventPreviewUI: FC<IEventPreview> = ({fullEvent}) => {
                 </Card>
                 <EventButtonResolverUI eventId={event.id}
                                        isOwner={jwt?.sub === event.createdBy}
-                                       isParticipant={fullEvent.isParticipant}
+                                       isParticipant={multipleEventResponse.isParticipant}
                                        fullWidth
                 />
             </Box>
