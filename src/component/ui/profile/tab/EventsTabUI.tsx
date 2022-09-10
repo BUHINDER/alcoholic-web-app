@@ -69,7 +69,7 @@ const EventsTabUI = () => {
         return (
             <TableRow key={event.id}
                       sx={{cursor: "pointer", ":hover": {background: "rgba(0,53,255,0.05)"}}}
-                      onClick={() => navigate(`/events/${event.id}`)}>
+                      onClick={() => navigate(`/event/${event.id}`)}>
                 <TableCell component="th" scope="row">
                     {event.title}
                 </TableCell>
