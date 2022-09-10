@@ -1,6 +1,6 @@
 import {EventDto} from "./EventDto";
 
-export interface FullEventDto {
+export interface SingleEventDto {
     event: EventDto,
     images: string[],
     participants: string[],

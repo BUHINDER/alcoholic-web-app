@@ -1,83 +1,18 @@
-import React, {FC, useEffect, useState} from 'react';
+import React from 'react';
 import {useParams} from "react-router-dom";
-import {useJoinEventMutation, useLazyGetEventQuery} from "../store/api/EventApi";
-import {EventDto} from "../dto/EventDto";
-import {
-    Box,
-    Button,
-    Card,
-    CardMedia,
-    Container,
-    Grid,
-    Tab,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableRow,
-    Tabs,
-    Typography
-} from "@mui/material";
-import {useLazyGetUserByIdQuery} from "../store/api/UserApi";
-import {buildUserFullName} from "../util/UserUtil";
+import {useGetEventQuery} from "../store/api/EventApi";
+import {Card, CardMedia, Container, Grid} from "@mui/material";
 import LoaderUI from "../component/ui/LoaderUI";
-import {TabContext, TabPanel} from "@mui/lab";
-import {epochToDate} from "../util/DateUtil";
 import {useAppSelector} from "../store/hook/Redux";
-import {UserResponse} from "../dto/reponse/UserResponse";
+import EventButtonResolverUI from "../component/ui/event/button/EventButtonResolverUI";
+import EventPageMainTab from "../component/ui/event/single/tab/EventPageMainTab";
 
-interface IField {
-    name: string,
-    value: string,
-}
-
-const Field: FC<IField> = ({name, value}) => {
-    return (
-        <dl style={{display: "flex", width: "100%", marginTop: "1rem"}}>
-            <dt style={{width: "50%"}}>
-                <span>{name}</span>
-            </dt>
-            <dd>{value}</dd>
-        </dl>
-    );
-}
-
-//todo MUST be refactored
 const EventPage = () => {
-    const [joinEvent, {isError, isSuccess}] = useJoinEventMutation();
-    const [isJoinable, setIsJoinable] = useState<boolean>();
-    const [isLoading, setIsLoading] = useState<boolean>(true);
     const {id} = useParams();
     const {jwt} = useAppSelector(state => state.authReducer);
-    const [isOwner, setIsOwner] = useState<boolean>(false);
-    const [event, setEvent] = useState<EventDto>();
-    const [images, setImages] = useState<string[]>([]);
-    const [owner, setOwner] = useState<string>("");
-    const [participants, setParticipants] = useState<UserResponse[]>([]);
-    const [getUserById] = useLazyGetUserByIdQuery();
-    const [getEventTrigger] = useLazyGetEventQuery();
-    const [tabValue, setTabValue] = useState<number>(0);
+    const {data: singleEvent} = useGetEventQuery(id!!);
 
-    function handleChange(event: React.SyntheticEvent, newValue: number) {
-        setTabValue(newValue);
-    }
-
-    useEffect(() => {
-        getEventTrigger(id!!).unwrap()
-            .then(res => {
-                setEvent(res.event);
-                setImages(res.images);
-                res.participants
-                    .map(p => getUserById(p).unwrap()
-                        .then(p => setParticipants(prev => [...prev, p])));
-                getUserById(res.event.createdBy).unwrap().then(user => setOwner(buildUserFullName(user)));
-                setIsOwner(jwt?.sub === res.event.createdBy!!);
-                setIsJoinable(!isOwner && !res.participants.includes(jwt?.sub!!, 0));
-            })
-            .finally(() => setIsLoading(false));
-    }, [getEventTrigger, getUserById, id, jwt?.sub]);
-
-    if (isLoading) {
+    if (!singleEvent) {
         return (
             <LoaderUI/>
         );
@@ -93,54 +28,28 @@ const EventPage = () => {
                       mb: 2,
                   }}
             >
-                <Grid item md={4}>
+                <Grid item md={4} sm={6} xs={6}>
                     <Card sx={{height: "30rem", width: "20rem"}}>
                         <CardMedia component="img"
                                    image={
-                                       images?.length!! > 0
-                                           ? `http://localhost:8082/api/alcoparty/image/${images?.[0]}`
+                                       singleEvent.images.length > 0
+                                           ? `http://localhost:8082/api/alcoparty/image/${singleEvent.images[0]}`
                                            : require("../image/1.jpg")
                                    }
-                                   alt={event?.title}
+                                   alt={singleEvent.event.title}
                                    sx={{objectFit: "cover", height: "inherit", width: "inherit"}}
                         />
                     </Card>
                 </Grid>
-                <Grid item md={8}>
-                    <TabContext value={`${tabValue}`}>
-                        <Tabs value={tabValue} onChange={handleChange}>
-                            <Tab label="Info"/>
-                            <Tab label="Participants"/>
-                        </Tabs>
-                        <TabPanel value={"0"}>
-                            <Typography variant={"h4"}>{event?.title}</Typography>
-                            <Box sx={{mt: 2}}>
-                                <Typography>{event?.info}</Typography>
-                            </Box>
-                            <Box sx={{mt: 2}}>
-                                <Field name={"Location"} value={event?.location!!}/>
-                                <Field name={"Owner"} value={isOwner ? `${owner} (You)` : owner}/>
-                                <Field name={"Start Date"} value={epochToDate(event?.startDate!!)}/>
-                                <Field name={"End Date"} value={epochToDate(event?.endDate!!)}/>
-                            </Box>
-                        </TabPanel>
-                        <TabPanel value={"1"}>
-                            <TableContainer>
-                                <Table>
-                                    <TableBody>
-                                        {participants.map(p => (
-                                            <TableRow key={p.id}>
-                                                <TableCell>{buildUserFullName(p)}</TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody>
-                                </Table>
-                            </TableContainer>
-                        </TabPanel>
-                    </TabContext>
+                <Grid item md={8} sm={6} xs={6}>
+                    <EventPageMainTab singleEvent={singleEvent}
+                                      isOwner={singleEvent?.event.createdBy === jwt?.sub!!}/>
                 </Grid>
-                <Grid item md={12} sx={{display: "flex", justifyContent: "flex-end"}}>
-                    {isJoinable && <Button variant={"contained"} onClick={() => joinEvent(event?.id!!)}>Join</Button>}
+                <Grid item xs={12} sm={12} md={12} sx={{display: "flex", justifyContent: "flex-end"}}>
+                    <EventButtonResolverUI
+                        eventId={singleEvent.event.id}
+                        isOwner={singleEvent?.event.createdBy === jwt?.sub!!}
+                        isParticipant={singleEvent.participants.includes(jwt?.sub!!, 0)}/>
                 </Grid>
             </Grid>
         </Container>

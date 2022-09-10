@@ -41,7 +41,7 @@ const NewEventTabUI = () => {
                 if (response) {
                     setEventEntity(initialState);
                     setBlobs([]);
-                    navigate(`/events/${response.event.id}`, {replace: true});
+                    navigate(`/events/${response.id}`, {replace: true});
                 }
             });
     }

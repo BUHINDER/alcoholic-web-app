@@ -36,4 +36,8 @@ export const userApi = createApi({
     })
 });
 
-export const {useLazyGetUserByEmailQuery, useLazyGetOwnInfoQuery, useLazyGetUserByIdQuery} = userApi;
+export const {
+    useLazyGetUserByEmailQuery,
+    useLazyGetOwnInfoQuery,
+    useLazyGetUserByIdQuery
+} = userApi;

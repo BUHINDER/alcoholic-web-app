@@ -1,8 +1,10 @@
 import React from 'react';
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {RootState} from "../Store";
-import {FullEventDto} from "../../dto/FullEventDto";
+import {MultipleEventDto} from "../../dto/MultipleEventDto";
 import {EventDto} from "../../dto/EventDto";
+import {SingleEventDto} from "../../dto/SingleEventDto";
+import {IdResponse} from "../../dto/reponse/IdResponse";
 
 export const eventApi = createApi({
     reducerPath: "event",
@@ -20,13 +22,13 @@ export const eventApi = createApi({
     }),
     tagTypes: ["EVENTS", "OWN_EVENTS", "SINGLE_EVENT"],
     endpoints: (build) => ({
-        getAllEvents: build.query<FullEventDto[], void>({
+        getAllEvents: build.query<MultipleEventDto[], void>({
             query: () => ({
                 url: ""
             }),
             providesTags: ["EVENTS"],
         }),
-        getEvent: build.query<FullEventDto, string>({
+        getEvent: build.query<SingleEventDto, string>({
             query: (id: string) => ({
                 url: `/${id}`
             }),
@@ -38,7 +40,7 @@ export const eventApi = createApi({
             }),
             providesTags: () => ["OWN_EVENTS"],
         }),
-        postEvent: build.mutation<void, FormData>({
+        postEvent: build.mutation<IdResponse, FormData>({
             query: (formData: FormData) => ({
                 url: "",
                 method: "POST",
@@ -46,26 +48,26 @@ export const eventApi = createApi({
             }),
             invalidatesTags: () => ["EVENTS"],
         }),
-        joinEvent: build.mutation<{ id: string }, string>({
+        joinEvent: build.mutation<IdResponse, string>({
             query: (eventId: string) => ({
                 url: `/join/${eventId}`,
                 method: "PUT",
             }),
-            invalidatesTags: () => ["EVENTS"],
+            invalidatesTags: () => ["EVENTS", "SINGLE_EVENT"],
         }),
-        leaveEvent: build.mutation<{ id: string }, string>({
+        leaveEvent: build.mutation<void, string>({
             query: (eventId: string) => ({
                 url: `/leave/${eventId}`,
                 method: "PUT",
             }),
-            invalidatesTags: () => ["EVENTS"],
+            invalidatesTags: () => ["EVENTS", "SINGLE_EVENT"],
         }),
-        disbandEvent: build.mutation<{ id: string }, string>({
+        disbandEvent: build.mutation<void, string>({
             query: (eventId: string) => ({
                 url: `/disband/${eventId}`,
                 method: "PUT",
             }),
-            invalidatesTags: () => ["EVENTS"],
+            invalidatesTags: () => ["EVENTS", "SINGLE_EVENT"],
         }),
     })
 });
@@ -75,6 +77,7 @@ export const {
     usePostEventMutation,
     useLazyGetAllOwnEventsQuery,
     useLazyGetEventQuery,
+    useGetEventQuery,
     useJoinEventMutation,
     useLeaveEventMutation,
     useDisbandEventMutation,
