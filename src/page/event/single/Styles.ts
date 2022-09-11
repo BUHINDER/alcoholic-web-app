@@ -8,7 +8,7 @@ class Styles {
 
     static readonly card = {height: "30rem", width: "20rem"};
 
-    static readonly cardMedia = {objectFit: "cover", height: "inherit", width: "inherit"};
+    static readonly cardMedia = {objectFit: "cover", height: "30rem", width: "20rem"};
 
     static readonly eventButton = {display: "flex"};
 }

@@ -8,6 +8,7 @@ import EventButtonResolverUI from "../../../component/ui/event/button/EventButto
 import EventPageMainTab from "../../../component/ui/event/single/tab/EventPageMainTab";
 import Styles from "./Styles";
 import InvitationLinkButton from "../../../component/ui/button/InvitationLinkButton";
+import Carousel from 'react-material-ui-carousel'
 
 const EventPage = () => {
     const {id} = useParams();
@@ -25,13 +26,24 @@ const EventPage = () => {
             <Grid container spacing={3} sx={Styles.gridContainer}>
                 <Grid item md={4} sm={6} xs={6}>
                     <Card sx={Styles.card}>
-                        <CardMedia component="img"
-                                   image={singleEvent.images.length > 0
-                                       ? `http://localhost:8082/api/alcoparty/image/${singleEvent.images[0]}`
-                                       : require("../../../image/1.jpg")}
-                                   alt={singleEvent.event.title}
-                                   sx={Styles.cardMedia}
-                        />
+                        <CardMedia sx={Styles.cardMedia}>
+                            {singleEvent.images.length > 0
+                                ? <Carousel sx={Styles.cardMedia}>
+                                    {singleEvent.images.map(id => (
+                                        <Box component={"img"}
+                                             sx={Styles.cardMedia}
+                                             src={`http://localhost:8082/api/alcoparty/image/${id}`}
+                                             alt={singleEvent.event.title}
+                                             key={id}
+                                        />
+                                    ))}
+                                </Carousel>
+                                : <Box component={"img"}
+                                       sx={Styles.cardMedia}
+                                       src={require("../../../image/1.jpg")}
+                                       alt={singleEvent.event.title}
+                                />}
+                        </CardMedia>
                     </Card>
                 </Grid>
                 <Grid item md={8} sm={6} xs={6}>
