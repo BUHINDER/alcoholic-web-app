@@ -6,11 +6,12 @@ import LoginPage from "./page/LoginPage";
 import RegisterPage from "./page/RegisterPage";
 import as from "./App.module.sass";
 import ProfilePage from "./page/ProfilePage";
-import EventsPage from "./page/EventsPage";
+import EventsPage from "./page/event/multiple/EventsPage";
 import PublicRouteComponent from "./component/auth/PublicRouteComponent";
 import PersistAuthComponent from "./component/auth/PersistAuthComponent";
-import EventPage from "./page/EventPage";
+import EventPage from "./page/event/single/EventPage";
 import NotFoundPage from "./page/NotFoundPage";
+import EventInvitationPreviewPage from "./page/event/invitation/EventInvitationPreviewPage";
 
 function App() {
     return (
@@ -25,6 +26,7 @@ function App() {
                         <Route index element={<EventsPage/>}/>
                         <Route path={"/profile"} element={<ProfilePage/>}/>
                         <Route path={"/event/:id"} element={<EventPage/>}/>
+                        <Route path={"/event/invite/:id"} element={<EventInvitationPreviewPage/>}/>
                         <Route path={"/*"} element={<NotFoundPage/>}/>
                     </Route
                     >

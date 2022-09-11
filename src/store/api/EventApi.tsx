@@ -37,6 +37,11 @@ export const eventApi = createApi({
             }),
             providesTags: ["SINGLE_EVENT"],
         }),
+        getByInvitationLink: build.query<SingleEventResponse, string>({
+            query: (invitationLink: string) => ({
+                url: `/link/${invitationLink}`,
+            }),
+        }),
         getAllOwnEvents: build.query<PaginationResponse<EventResponse>, PaginationParamModel>({
             query: (pagination) => ({
                 url: "/own",
@@ -82,6 +87,7 @@ export const {
     usePostEventMutation,
     useLazyGetAllOwnEventsQuery,
     useLazyGetEventQuery,
+    useGetByInvitationLinkQuery,
     useGetEventQuery,
     useJoinEventMutation,
     useLeaveEventMutation,

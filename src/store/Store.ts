@@ -3,19 +3,24 @@ import authReducer from "./reducer/AuthSlice";
 import {authApi} from "./api/AuthApi";
 import {eventApi} from "./api/EventApi";
 import {userApi} from "./api/UserApi";
+import {invitationLinkApi} from "./api/InvitationLinkApi";
 
 const rootReducer = combineReducers({
     authReducer,
     [authApi.reducerPath]: authApi.reducer,
     [eventApi.reducerPath]: eventApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
+    [invitationLinkApi.reducerPath]: invitationLinkApi.reducer,
 });
 
 export const setupStore = () => {
     return configureStore({
         reducer: rootReducer,
         middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(
-            authApi.middleware, eventApi.middleware, userApi.middleware,
+            authApi.middleware,
+            eventApi.middleware,
+            userApi.middleware,
+            invitationLinkApi.middleware,
         )
     });
 };
