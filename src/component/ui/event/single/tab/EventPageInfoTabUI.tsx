@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {TabPanel} from "@mui/lab";
 import {Box, Typography} from "@mui/material";
-import {epochToDate} from "../../../../../util/DateUtil";
+import {epochToDate, epochToRuDate} from "../../../../../util/DateUtil";
 
 export interface IEventPageInfoTabUI {
     title: string,
@@ -21,8 +21,8 @@ const EventPageInfoTabUI: FC<IEventPageInfoTabUI> = (props) => (
         <Box sx={{mt: 2}}>
             <Field name={"Location"} value={props.location}/>
             <Field name={"Owner"} value={props.owner}/>
-            <Field name={"Start Date"} value={epochToDate(props.startDate)}/>
-            <Field name={"End Date"} value={epochToDate(props.endDate)}/>
+            <Field name={"Start Date"} value={epochToRuDate(props.startDate)}/>
+            <Field name={"End Date"} value={epochToRuDate(props.endDate)}/>
         </Box>
     </TabPanel>
 );
