@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Box, Grid} from "@mui/material";
-import EventPreviewUI from "../EventPreviewUI";
+import EventPreviewUI from "../preview/EventPreviewUI";
 import {TabPanel} from "@mui/lab";
 import {useLazyGetAllEventsQuery} from "../../../../../store/api/EventApi";
 import {PaginationParamModel} from "../../../../../model/PaginationParamModel";
