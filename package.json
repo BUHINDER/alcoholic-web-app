@@ -5,6 +5,7 @@
   "dependencies": {
     "@emotion/react": "11.10.0",
     "@emotion/styled": "11.10.0",
+    "@hookform/resolvers": "^2.9.8",
     "@mui/icons-material": "5.8.4",
     "@mui/lab": "5.0.0-alpha.94",
     "@mui/material": "5.9.3",
@@ -26,6 +27,7 @@
     "node-sass": "7.0.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.35.0",
     "react-icons": "4.4.0",
     "react-material-ui-carousel": "3.4.2",
     "react-redux": "8.0.2",
