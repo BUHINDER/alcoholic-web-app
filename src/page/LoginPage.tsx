@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginForm from "../form/LoginForm";
+import LoginForm from "../component/ui/form/login/LoginForm";
 import {Container} from "@mui/material";
 
 const LoginPage = () => {

@@ -1,6 +1,6 @@
 import React, {ChangeEvent, MouseEvent, useState} from 'react';
-import {useRegisterMutation} from "../store/api/AuthApi";
-import {UserEntity} from "../entity/UserEntity";
+import {useRegisterMutation} from "../../../../store/api/AuthApi";
+import {UserEntity} from "../../../../entity/UserEntity";
 import {
     Avatar,
     Box,
