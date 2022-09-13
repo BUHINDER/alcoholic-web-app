@@ -7,12 +7,20 @@ class Styles {
     };
 
     static readonly avatar = {
-        m: 1,
         bgcolor: "76ff03",
+        width: 64,
+        height: 64,
+    };
+
+    static readonly photo = {
+        width: 64,
+        height: 64,
+        objectFit: "cover",
     };
 
     static readonly signUp = {
-        mb: 5,
+        mt: 1,
+        mb: 2,
     };
 
     static readonly form = {
@@ -26,13 +34,23 @@ class Styles {
     };
 
     static readonly submit = {
-        mt: 3,
+        mt: 2,
         mb: 2,
     }
 
     static readonly login = {
         display: "flex",
         flexDirection: "column",
+    };
+
+    static readonly photoButton = {
+        display: "flex",
+        width: "100%",
+    }
+
+    static readonly delete = {
+        ml: 0.5,
+        mr: 0.5,
     };
 
 }

@@ -14,7 +14,7 @@ import {
     Typography
 } from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {UserCredentialsEntity} from "../../../../entity/UserCredentialsEntity";
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
@@ -41,10 +41,13 @@ const LoginForm = () => {
     const [loginUser, {isLoading}] = useLoginMutation();
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const navigate = useNavigate();
-    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({resolver: yupResolver(schema)});
+    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
 
-    const onSubmit: SubmitHandler<Inputs> = ({login, password}: Inputs) => {
-        loginUser({login: login, password: password} as UserCredentialsEntity)
+    function onSubmit(data: UserCredentialsEntity) {
+        loginUser(data)
             .then(res => {
                 //todo FT-37
                 // @ts-ignore
@@ -52,7 +55,7 @@ const LoginForm = () => {
                     navigate("/", {replace: true})
                 }
             });
-    };
+    }
 
     return (
         <Container component={"main"} maxWidth={"xs"}>
