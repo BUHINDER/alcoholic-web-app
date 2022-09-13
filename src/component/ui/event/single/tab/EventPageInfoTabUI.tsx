@@ -1,7 +1,7 @@
 import React, {FC} from 'react';
 import {TabPanel} from "@mui/lab";
 import {Box, Typography} from "@mui/material";
-import {epochToDate, epochToRuDate} from "../../../../../util/DateUtil";
+import {epochToRuDate} from "../../../../../util/DateUtil";
 
 export interface IEventPageInfoTabUI {
     title: string,

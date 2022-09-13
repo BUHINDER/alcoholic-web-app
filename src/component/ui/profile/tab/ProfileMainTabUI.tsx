@@ -1,4 +1,4 @@
-import React, {FC, useState} from 'react';
+import React, {useState} from 'react';
 import {Tab, Tabs} from "@mui/material";
 import AccountInfoTabUI from "./AccountInfoTabUI";
 import EventsTabUI from "./EventsTabUI";

@@ -1,4 +1,4 @@
-import React, {ChangeEvent, MouseEvent, useState} from 'react';
+import React, {useState} from 'react';
 import {useRegisterMutation} from "../../../../store/api/AuthApi";
 import {UserEntity} from "../../../../entity/UserEntity";
 import {
@@ -10,41 +10,68 @@ import {
     IconButton,
     InputAdornment,
     OutlinedInput,
-    TextField,
     Typography
 } from "@mui/material";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
 import {Link, useNavigate} from "react-router-dom";
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
+import * as yup from "yup";
+import {Controller, useForm} from "react-hook-form";
+import {yupResolver} from "@hookform/resolvers/yup";
+import ToolTipUI from "../../util/ToolTipUI";
+import Styles from "./Styles";
 
-const initialState = {
-    firstname: "",
-    lastName: "",
-    age: undefined,
-    email: "",
-    login: "",
-    password: "",
-}
+
+type Inputs = {
+    firstname: string,
+    lastName: string,
+    age: number,
+    email: string,
+    login: string,
+    password: string,
+};
+
+const schema = yup.object({
+    firstname: yup.string()
+        .required("First Name is required")
+        .max(20, "First Name must be less than or equal to 20")
+        .trim(),
+    lastName: yup.string()
+        .required("Last Name is required")
+        .max(30, "Password must be less than or equal to 30")
+        .trim(),
+    age: yup.number()
+        .min(1, "Age must be greater than or equal to 1")
+        .max(150, "Age must be less than or equal to 150")
+        .integer()
+        .truncate(),
+    email: yup.string()
+        .required("Email is required")
+        .email("Email must be a valid email")
+        .trim(),
+    login: yup.string()
+        .required("Login is required")
+        .max(20, "Login must be less than or equal to 20")
+        .trim(),
+    password: yup.string()
+        .required("Password is required")
+        .max(30, "Password must be less than or equal to 30")
+        .trim(),
+});
 
 const RegisterForm = () => {
     const navigate = useNavigate();
     const [isVisible, setIsVisible] = useState<boolean>(false);
-    const [user, setUser] = useState<UserEntity>(initialState);
     const [register, {isLoading}] = useRegisterMutation();
+    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({resolver: yupResolver(schema)});
 
-    function handleOnChange(e: ChangeEvent<HTMLInputElement>) {
-        return setUser({...user, [e.target.name]: e.target.value});
-    }
-
-    function handleOnClick(e: MouseEvent<HTMLElement>) {
-        e.preventDefault();
-        register(user)
+    function onSubmit(data: UserEntity) {
+        register(data)
             .then(res => {
                 //todo FT-37
                 // @ts-ignore
                 if (res.data) {
-                    setUser(initialState);
                     navigate("/login", {replace: true});
                 }
             });
@@ -54,107 +81,116 @@ const RegisterForm = () => {
         <>
             <Container maxWidth={"xs"}>
                 <CssBaseline/>
-                <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                    <Avatar sx={{m: 1, bgcolor: "76ff03"}}>
+                <Box sx={Styles.box}>
+                    <Avatar sx={Styles.avatar}>
                         <AppRegistrationIcon/>
                     </Avatar>
-                    <Typography component={"h1"} variant={"h5"}>
-                        Sign Up
-                    </Typography>
-                    <Box>
-                        <TextField type={"text"}
-                                   placeholder={"First Name"}
-                                   label={"First Name"}
-                                   name={"firstname"}
-                                   required
-                                   onChange={handleOnChange}
-                                   value={user.firstname}
-                                   autoFocus
-                                   variant={"outlined"}
-                                   margin={"normal"}
-                                   fullWidth
+                    <Typography sx={Styles.signUp} variant={"h5"}>Sign Up</Typography>
+                    <Box component={"form"}
+                         onSubmit={handleSubmit(onSubmit)}
+                         sx={Styles.form}>
+                        <Controller name={"firstname"}
+                                    control={control}
+                                    defaultValue={""}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.firstname?.message || "")}>
+                                            <OutlinedInput type={"text"}
+                                                           placeholder={"First Name"}
+                                                           fullWidth
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
-                        <TextField type={"text"}
-                                   placeholder={"Last Name"}
-                                   label={"Last Name"}
-                                   name={"lastName"}
-                                   required
-                                   onChange={handleOnChange}
-                                   value={user.lastName}
-                                   autoFocus
-                                   variant={"outlined"}
-                                   margin={"normal"}
-                                   fullWidth
+                        <Controller name={"lastName"}
+                                    control={control}
+                                    defaultValue={""}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.lastName?.message || "")}>
+                                            <OutlinedInput type={"text"}
+                                                           placeholder={"Last Name"}
+                                                           fullWidth
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
-                        <TextField type={"number"}
-                                   placeholder={"Age"}
-                                   label={"Age"}
-                                   name={"age"}
-                                   onChange={handleOnChange}
-                                   value={user.age}
-                                   autoFocus
-                                   variant={"outlined"}
-                                   margin={"normal"}
-                                   fullWidth
+                        <Controller name={"age"}
+                                    control={control}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.age?.message || "")}>
+                                            <OutlinedInput type={"number"}
+                                                           placeholder={"Age"}
+                                                           fullWidth
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
-                        <TextField type={"email"}
-                                   placeholder={"Email"}
-                                   label={"Email"}
-                                   name={"email"}
-                                   required
-                                   onChange={handleOnChange}
-                                   value={user.email}
-                                   autoFocus
-                                   variant={"outlined"}
-                                   margin={"normal"}
-                                   fullWidth
+                        <Controller name={"email"}
+                                    control={control}
+                                    defaultValue={""}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.email?.message || "")}>
+                                            <OutlinedInput type={"text"}
+                                                           placeholder={"Email"}
+                                                           fullWidth
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
-                        <TextField type={"text"}
-                                   placeholder={"Login"}
-                                   label={"Login"}
-                                   name={"login"}
-                                   required
-                                   onChange={handleOnChange}
-                                   value={user.login}
-                                   autoFocus
-                                   variant={"outlined"}
-                                   margin={"normal"}
-                                   fullWidth
+                        <Controller name={"login"}
+                                    control={control}
+                                    defaultValue={""}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.login?.message || "")}>
+                                            <OutlinedInput type={"text"}
+                                                           placeholder={"Login"}
+                                                           fullWidth
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
-                        <OutlinedInput
-                            sx={{mt: 2}}
-                            name={"password"}
-                            placeholder={"Password"}
-                            fullWidth
-                            type={isVisible ? 'text' : 'password'}
-                            value={user.password}
-                            onChange={handleOnChange}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        disabled={isLoading}
-                                        aria-label={"toggle password visibility"}
-                                        onClick={() => setIsVisible(!isVisible)}
-                                        onMouseDown={e => e.preventDefault()}
-                                        edge={"end"}
-                                    >
-                                        {isVisible ? <VisibilityOff/> : <Visibility/>}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
+                        <Controller name={"password"}
+                                    control={control}
+                                    defaultValue={""}
+                                    render={({field}) =>
+                                        <ToolTipUI title={(errors.password?.message || "")}>
+                                            <OutlinedInput type={isVisible ? 'text' : 'password'}
+                                                           placeholder={"Password"}
+                                                           fullWidth
+                                                           endAdornment={
+                                                               <InputAdornment position="end">
+                                                                   <IconButton
+                                                                       disabled={isLoading}
+                                                                       aria-label={"toggle password visibility"}
+                                                                       onClick={() => setIsVisible(!isVisible)}
+                                                                       onMouseDown={e => e.preventDefault()}
+                                                                       edge={"end"}
+                                                                   >
+                                                                       {isVisible ? <VisibilityOff/> : <Visibility/>}
+                                                                   </IconButton>
+                                                               </InputAdornment>
+                                                           }
+                                                           {...field}
+                                            />
+                                        </ToolTipUI>
+                                    }
                         />
                         <LoadingButton
-                            onClick={handleOnClick}
                             loading={isLoading}
                             type={"submit"}
                             fullWidth
                             variant={"contained"}
-                            sx={{mt: 3, mb: 2}}
+                            sx={Styles.submit}
+                            size={"large"}
                         >
                             Sign Up
                         </LoadingButton>
                     </Box>
-                    <Grid container sx={{display: "flex", flexDirection: "column"}}>
+                    <Grid container sx={Styles.login}>
                         <Grid item>
                             <Link to={"/login"}>
                                 {"Already have an account? Sign In"}
