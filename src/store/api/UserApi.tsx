@@ -38,6 +38,7 @@ export const userApi = createApi({
 
 export const {
     useLazyGetUserByEmailQuery,
+    useGetOwnInfoQuery,
     useLazyGetOwnInfoQuery,
     useLazyGetUserByIdQuery
 } = userApi;

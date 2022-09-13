@@ -3,8 +3,13 @@ import {Tab, Tabs} from "@mui/material";
 import AccountInfoTabUI from "./AccountInfoTabUI";
 import EventsTabUI from "./EventsTabUI";
 import {TabContext} from "@mui/lab";
+import {UserResponse} from "../../../../dto/reponse/UserResponse";
 
-const ProfileMainTabUI = () => {
+interface IProfileMainTabUI {
+    user: UserResponse,
+}
+
+const ProfileMainTabUI: FC<IProfileMainTabUI> = ({user}) => {
     const [tabValue, setTabValue] = useState<number>(1);
 
     function handleChange(event: React.SyntheticEvent, newValue: number) {
@@ -17,7 +22,7 @@ const ProfileMainTabUI = () => {
                 <Tab label="ACCOUNT INFORMATION"/>
                 <Tab label="MY EVENTS"/>
             </Tabs>
-            <AccountInfoTabUI/>
+            <AccountInfoTabUI user={user}/>
             <EventsTabUI/>
         </TabContext>
     );

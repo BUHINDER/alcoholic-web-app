@@ -14,13 +14,14 @@ import {
     Typography
 } from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
-import {Controller, SubmitHandler, useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {UserCredentialsEntity} from "../../../../entity/UserCredentialsEntity";
 import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
 import ToolTipUI from "../../util/ToolTipUI";
+import Styles from "./Styles";
 
 type Inputs = {
     login: string,
@@ -28,18 +29,25 @@ type Inputs = {
 };
 
 const schema = yup.object({
-    login: yup.string().required(),
-    password: yup.string().required(),
+    login: yup.string()
+        .required("Login is required")
+        .trim(),
+    password: yup.string()
+        .required("Password is required")
+        .trim(),
 });
 
 const LoginForm = () => {
     const [loginUser, {isLoading}] = useLoginMutation();
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const navigate = useNavigate();
-    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({resolver: yupResolver(schema)});
+    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
 
-    const onSubmit: SubmitHandler<Inputs> = ({login, password}: Inputs) => {
-        loginUser({login: login, password: password} as UserCredentialsEntity)
+    function onSubmit(data: UserCredentialsEntity) {
+        loginUser(data)
             .then(res => {
                 //todo FT-37
                 // @ts-ignore
@@ -47,28 +55,24 @@ const LoginForm = () => {
                     navigate("/", {replace: true})
                 }
             });
-    };
+    }
 
     return (
         <Container component={"main"} maxWidth={"xs"}>
             <CssBaseline/>
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                <Avatar sx={{m: 1, bgcolor: "76ff03"}}>
+            <Box sx={Styles.box}>
+                <Avatar sx={Styles.avatar}>
                     <LockOutlinedIcon/>
                 </Avatar>
-                <Typography component={"h1"}
-                            variant={"h5"}>
-                    Sign in
-                </Typography>
-                <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
+                <Typography sx={Styles.signIn} variant={"h5"}>Sign in</Typography>
+                <Box component={"form"} onSubmit={handleSubmit(onSubmit)} sx={Styles.form}>
                     <Controller
                         name={"login"}
                         control={control}
                         defaultValue={""}
                         render={({field}) =>
                             <ToolTipUI title={(errors.login?.message || "")}>
-                                <OutlinedInput sx={{color: "black", m: "0.3rem"}}
-                                               placeholder={"Login"}
+                                <OutlinedInput placeholder={"Login"}
                                                id={"login"}
                                                fullWidth
                                                autoFocus
@@ -84,8 +88,7 @@ const LoginForm = () => {
                         defaultValue={""}
                         render={({field}) =>
                             <ToolTipUI title={(errors.password?.message || "")}>
-                                <OutlinedInput sx={{color: "black", m: "0.3rem"}}
-                                               placeholder={"Password"}
+                                <OutlinedInput placeholder={"Password"}
                                                fullWidth
                                                type={isVisible ? 'text' : 'password'}
                                                endAdornment={
@@ -107,12 +110,13 @@ const LoginForm = () => {
                                    type={"submit"}
                                    fullWidth
                                    variant={"contained"}
-                                   sx={{mt: 3, mb: 2}}
+                                   sx={Styles.submit}
+                                   size={"large"}
                     >
                         Sign In
                     </LoadingButton>
                 </Box>
-                <Grid container sx={{display: "flex", flexDirection: "column"}}>
+                <Grid container sx={Styles.register}>
                     <Grid item>
                         <Link to={"/register"}>
                             {"Don't have an account? Sign Up"}
