@@ -4,6 +4,7 @@ import {useLogoutMutation} from "../../../store/api/AuthApi";
 import {Logout} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../../../store/hook/Redux";
+import UUIDUtil from "../../../util/UUIDUtil";
 
 const ProfileUI = () => {
     const {jwt} = useAppSelector(state => state.authReducer);
@@ -43,7 +44,12 @@ const ProfileUI = () => {
                     aria-haspopup="true"
                     aria-expanded={open ? "true" : undefined}
                 >
-                    <Avatar sx={{width: 32, height: 32}} src={require("../../../image/stokovyi-chel.jpg")}/>
+                    <Avatar sx={{width: 32, height: 32}} src={
+                        UUIDUtil.isNullUUID(jwt!!.context.photoId)
+                            ? require("../../../image/stokovyi-chel.jpg")
+                            : `http://localhost:8081/api/alcoholic/image/${jwt!!.context.photoId}`
+                    }
+                    />
                 </IconButton>
             </Box>
             <Menu

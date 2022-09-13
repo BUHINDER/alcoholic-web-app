@@ -4,6 +4,7 @@ import {UserEntity} from "../../../../entity/UserEntity";
 import {
     Avatar,
     Box,
+    Button,
     Container,
     CssBaseline,
     Grid,
@@ -21,7 +22,8 @@ import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
 import ToolTipUI from "../../util/ToolTipUI";
 import Styles from "./Styles";
-
+import PortraitIcon from '@mui/icons-material/Portrait';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type Inputs = {
     firstname: string,
@@ -62,19 +64,40 @@ const schema = yup.object({
 
 const RegisterForm = () => {
     const navigate = useNavigate();
+    const formData = new FormData();
+    const [userImage, setUserImage] = useState<Blob | null>(null);
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [register, {isLoading}] = useRegisterMutation();
-    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({resolver: yupResolver(schema)});
+    const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({
+        mode: "onBlur",
+        resolver: yupResolver(schema),
+    });
 
     function onSubmit(data: UserEntity) {
-        register(data)
+        formData.append("user", new Blob([JSON.stringify(data)], {type: 'application/json'}));
+        if (userImage) {
+            formData.append("image", userImage);
+        }
+        register(formData)
             .then(res => {
                 //todo FT-37
                 // @ts-ignore
-                if (res.data) {
+                if (res.data === null) {
                     navigate("/login", {replace: true});
                 }
             });
+    }
+
+    function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const files = e.target.files;
+        if (files) {
+            setUserImage(new Blob([files[0]], {type: files[0].type}));
+        }
+    }
+
+    function handleImageClick(e: React.MouseEvent<HTMLInputElement>) {
+        // @ts-ignore
+        e.target.value = null
     }
 
     return (
@@ -82,9 +105,15 @@ const RegisterForm = () => {
             <Container maxWidth={"xs"}>
                 <CssBaseline/>
                 <Box sx={Styles.box}>
-                    <Avatar sx={Styles.avatar}>
-                        <AppRegistrationIcon/>
-                    </Avatar>
+                    {userImage === null
+                        ? <Avatar sx={Styles.avatar}>
+                            <AppRegistrationIcon/>
+                        </Avatar>
+                        : <Avatar
+                            src={URL.createObjectURL(userImage)}
+                            sx={Styles.photo}
+                        />
+                    }
                     <Typography sx={Styles.signUp} variant={"h5"}>Sign Up</Typography>
                     <Box component={"form"}
                          onSubmit={handleSubmit(onSubmit)}
@@ -179,6 +208,23 @@ const RegisterForm = () => {
                                         </ToolTipUI>
                                     }
                         />
+                        <Box sx={Styles.photoButton}>
+                            <Button component={"label"}
+                                    startIcon={<PortraitIcon/>}
+                                    variant={"outlined"}
+                                    size={"large"}
+                                    fullWidth
+                            >
+                                {userImage === null ? "Attach Photo" : "Change Photo"}
+                                <input type="file" accept="image/jpeg" hidden onChange={e => handleImageChange(e)}
+                                       onClick={e => handleImageClick(e)}/>
+                            </Button>
+                            {userImage !== null &&
+                                <IconButton sx={Styles.delete} onClick={() => setUserImage(null)}>
+                                    <DeleteIcon/>
+                                </IconButton>
+                            }
+                        </Box>
                         <LoadingButton
                             loading={isLoading}
                             type={"submit"}

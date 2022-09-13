@@ -4,6 +4,7 @@ export interface JwtModel {
     roles: string[],
     exp: number,
     context: {
-        displayName: string
+        displayName: string,
+        photoId: string,
     }
 }
