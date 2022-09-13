@@ -13,12 +13,13 @@ const ToolTipUI: FC<IToolTipUI> = ({children, title}) => {
         <ClickAwayListener onClickAway={() => setOpen(false)}>
             <Tooltip PopperProps={{disablePortal: true}}
                      onClose={() => setOpen(false)}
-                     open={true}
                      placement={"right"}
                      disableFocusListener
                      disableHoverListener
                      disableTouchListener
                      title={title}
+                     arrow
+                     open
             >
                 {children}
             </Tooltip>

@@ -21,6 +21,7 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
 import ToolTipUI from "../../util/ToolTipUI";
+import Styles from "./Styles";
 
 type Inputs = {
     login: string,
@@ -28,8 +29,12 @@ type Inputs = {
 };
 
 const schema = yup.object({
-    login: yup.string().required(),
-    password: yup.string().required(),
+    login: yup.string()
+        .required("Login is required")
+        .trim(),
+    password: yup.string()
+        .required("Password is required")
+        .trim(),
 });
 
 const LoginForm = () => {
@@ -52,23 +57,19 @@ const LoginForm = () => {
     return (
         <Container component={"main"} maxWidth={"xs"}>
             <CssBaseline/>
-            <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
-                <Avatar sx={{m: 1, bgcolor: "76ff03"}}>
+            <Box sx={Styles.box}>
+                <Avatar sx={Styles.avatar}>
                     <LockOutlinedIcon/>
                 </Avatar>
-                <Typography component={"h1"}
-                            variant={"h5"}>
-                    Sign in
-                </Typography>
-                <Box component={"form"} onSubmit={handleSubmit(onSubmit)}>
+                <Typography sx={Styles.signIn} variant={"h5"}>Sign in</Typography>
+                <Box component={"form"} onSubmit={handleSubmit(onSubmit)} sx={Styles.form}>
                     <Controller
                         name={"login"}
                         control={control}
                         defaultValue={""}
                         render={({field}) =>
                             <ToolTipUI title={(errors.login?.message || "")}>
-                                <OutlinedInput sx={{color: "black", m: "0.3rem"}}
-                                               placeholder={"Login"}
+                                <OutlinedInput placeholder={"Login"}
                                                id={"login"}
                                                fullWidth
                                                autoFocus
@@ -84,8 +85,7 @@ const LoginForm = () => {
                         defaultValue={""}
                         render={({field}) =>
                             <ToolTipUI title={(errors.password?.message || "")}>
-                                <OutlinedInput sx={{color: "black", m: "0.3rem"}}
-                                               placeholder={"Password"}
+                                <OutlinedInput placeholder={"Password"}
                                                fullWidth
                                                type={isVisible ? 'text' : 'password'}
                                                endAdornment={
@@ -107,12 +107,13 @@ const LoginForm = () => {
                                    type={"submit"}
                                    fullWidth
                                    variant={"contained"}
-                                   sx={{mt: 3, mb: 2}}
+                                   sx={Styles.submit}
+                                   size={"large"}
                     >
                         Sign In
                     </LoadingButton>
                 </Box>
-                <Grid container sx={{display: "flex", flexDirection: "column"}}>
+                <Grid container sx={Styles.register}>
                     <Grid item>
                         <Link to={"/register"}>
                             {"Don't have an account? Sign Up"}
