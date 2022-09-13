@@ -1,8 +1,20 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Card, CardMedia, Container, Grid} from "@mui/material";
 import ProfileMainTabUI from "../component/ui/profile/tab/ProfileMainTabUI";
+import {useLazyGetOwnInfoQuery} from "../store/api/UserApi";
+import LoaderUI from "../component/ui/LoaderUI";
 
 const ProfilePage = () => {
+    const [getOwnInfo, {data: user, isFetching}] = useLazyGetOwnInfoQuery();
+
+    useEffect(() => {
+        getOwnInfo();
+    }, []);
+
+    if (isFetching || !user) {
+        return <LoaderUI/>
+    }
+
     return (
         <Container>
             <Grid container spacing={3}
@@ -13,18 +25,19 @@ const ProfilePage = () => {
                       mb: 2,
                   }}
             >
-                <Grid item md={3}>
-                    <Card sx={{height: "inherit", width: "100%",}}>
-                        <CardMedia
-                            component="img"
-                            image={require("../image/stokovyi-chel.jpg")}
-                            alt={"Profile"}
-                            sx={{objectFit: "cover"}}
+                <Grid item md={3} sx={{height: "25rem", width: "100%"}}>
+                    <Card sx={{height: "25rem", width: "100%"}}>
+                        <CardMedia component="img"
+                                   sx={{objectFit: "cover", height: "25rem", width: "100%"}}
+                                   image={user.photoId
+                                       ? `http://localhost:8081/api/alcoholic/image/${user.photoId}`
+                                       : require("../image/1.jpg")}
+                                   alt={"Profile"}
                         />
                     </Card>
                 </Grid>
                 <Grid item md={9}>
-                    <ProfileMainTabUI/>
+                    <ProfileMainTabUI user={user}/>
                 </Grid>
             </Grid>
         </Container>

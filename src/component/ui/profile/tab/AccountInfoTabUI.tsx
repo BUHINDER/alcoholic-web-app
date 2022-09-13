@@ -1,29 +1,20 @@
 import {TabPanel} from "@mui/lab";
 import {Box, TextField} from "@mui/material";
-import React, {FormEvent, useEffect, useState} from "react";
-import {useLazyGetOwnInfoQuery} from "../../../../store/api/UserApi";
+import React, {FC} from "react";
 import {UserResponse} from "../../../../dto/reponse/UserResponse";
 
-const AccountInfoTabUI = () => {
-    const [getOwnInfo] = useLazyGetOwnInfoQuery();
-    const [user, setUser] = useState<UserResponse>();
+interface IAccountInfoTabUI {
+    user: UserResponse,
+}
 
-    useEffect(() => {
-        getOwnInfo().unwrap().then(res => setUser(res));
-    }, []);
-
-    function handleSubmit(e: FormEvent<HTMLDivElement>) {
-        e.preventDefault()
-    }
-
+const AccountInfoTabUI: FC<IAccountInfoTabUI> = ({user}) => {
     return (
         <TabPanel value={"0"}>
-            <Box component={"form"} onSubmit={(e: FormEvent<HTMLDivElement>) => handleSubmit(e)}>
+            <Box component={"form"}>
                 <Box sx={{mt: 1, mb: 1,}}>
                     <TextField
                         label={"First Name"}
-                        id={"firstname"}
-                        value={user?.firstname}
+                        value={user.firstname}
                         disabled
                         fullWidth
                         size={"small"}
@@ -33,8 +24,7 @@ const AccountInfoTabUI = () => {
                 <Box sx={{mt: 1, mb: 1,}}>
                     <TextField
                         label={"Last Name"}
-                        id={"lastName"}
-                        value={user?.lastName}
+                        value={user.lastName}
                         disabled
                         fullWidth
                         size={"small"}
@@ -44,8 +34,7 @@ const AccountInfoTabUI = () => {
                 <Box sx={{mt: 1, mb: 1,}}>
                     <TextField
                         label={"Age"}
-                        id={"age"}
-                        value={user?.age}
+                        value={user.age}
                         disabled
                         fullWidth
                         size={"small"}
@@ -55,8 +44,7 @@ const AccountInfoTabUI = () => {
                 <Box sx={{mt: 1, mb: 1,}}>
                     <TextField
                         label={"Email"}
-                        id={"email"}
-                        value={user?.email}
+                        value={user.email}
                         disabled
                         fullWidth
                         size={"small"}

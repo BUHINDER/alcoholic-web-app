@@ -2,8 +2,6 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {AccessTokenDto} from "../../dto/AccessTokenDto";
 import {RootState} from "../Store";
 import {UserCredentialsEntity} from "../../entity/UserCredentialsEntity";
-import {UserEntity} from "../../entity/UserEntity";
-import {UserDto} from "../../dto/UserDto";
 
 export const authApi = createApi({
     reducerPath: "auth",
@@ -22,11 +20,11 @@ export const authApi = createApi({
     }),
     tagTypes: ["Auth"],
     endpoints: (build) => ({
-        register: build.mutation<UserDto, UserEntity>({
-            query: (entity: UserEntity) => ({
+        register: build.mutation<void, FormData>({
+            query: (formData: FormData) => ({
                 url: "/register",
                 method: "POST",
-                body: entity
+                body: formData
             })
         }),
         login: build.mutation<AccessTokenDto, UserCredentialsEntity>({
