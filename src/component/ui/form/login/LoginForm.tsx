@@ -20,7 +20,7 @@ import * as yup from "yup";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import {LoadingButton} from "@mui/lab";
-import ToolTipUI from "../../util/ToolTipUI";
+import ToolTipUI from "../../util/tooltip/ToolTipUI";
 import Styles from "./Styles";
 
 type Inputs = {
