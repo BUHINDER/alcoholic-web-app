@@ -20,7 +20,7 @@ import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import * as yup from "yup";
 import {Controller, useForm} from "react-hook-form";
 import {yupResolver} from "@hookform/resolvers/yup";
-import ToolTipUI from "../../util/ToolTipUI";
+import ToolTipUI from "../../util/tooltip/ToolTipUI";
 import Styles from "./Styles";
 import PortraitIcon from '@mui/icons-material/Portrait';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -69,7 +69,7 @@ const RegisterForm = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [register, {isLoading}] = useRegisterMutation();
     const {control, handleSubmit, formState: {errors}} = useForm<Inputs>({
-        mode: "onBlur",
+        mode: "onChange",
         resolver: yupResolver(schema),
     });
 

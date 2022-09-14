@@ -1,5 +1,6 @@
 import React, {FC, ReactElement, useState} from 'react';
 import {ClickAwayListener, Tooltip} from "@mui/material";
+import Styles from "./Styles";
 
 interface IToolTipUI {
     children: ReactElement,
@@ -20,6 +21,7 @@ const ToolTipUI: FC<IToolTipUI> = ({children, title}) => {
                      title={title}
                      arrow
                      open
+                     componentsProps={{tooltip: {sx: Styles.tooltip}}}
             >
                 {children}
             </Tooltip>
