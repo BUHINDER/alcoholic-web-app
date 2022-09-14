@@ -2,11 +2,12 @@ import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/dist/query/react";
 import {AccessTokenDto} from "../../dto/AccessTokenDto";
 import {RootState} from "../Store";
 import {UserCredentialsEntity} from "../../entity/UserCredentialsEntity";
+import {ALCOHOLIC_URL} from "../../util/EnvUtil";
 
 export const authApi = createApi({
     reducerPath: "auth",
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://localhost:8081/api",
+        baseUrl: `${ALCOHOLIC_URL}/api`,
         credentials: "include",
         prepareHeaders: (headers, {getState}) => {
             const token = (getState() as RootState).authReducer.token
