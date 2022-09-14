@@ -5,19 +5,29 @@ import Styles from "./Styles";
 interface IToolTipUI {
     children: ReactElement,
     title: string,
+    placement?: | "bottom-end"
+        | "bottom-start"
+        | "bottom"
+        | "left-end"
+        | "left-start"
+        | "left"
+        | "right-end"
+        | "right-start"
+        | "right"
+        | "top-end"
+        | "top-start"
+        | "top",
 }
 
-const ToolTipUI: FC<IToolTipUI> = ({children, title}) => {
-    const [open, setOpen] = useState(false);
-
+const ToolTipUI: FC<IToolTipUI> = ({children, title, placement = "right"}) => {
     return (
-        <ClickAwayListener onClickAway={() => setOpen(false)}>
+        <ClickAwayListener onClickAway={() => {}}>
             <Tooltip PopperProps={{disablePortal: true}}
-                     onClose={() => setOpen(false)}
-                     placement={"right"}
+                     placement={placement}
                      disableFocusListener
                      disableHoverListener
                      disableTouchListener
+                     disableInteractive
                      title={title}
                      arrow
                      open

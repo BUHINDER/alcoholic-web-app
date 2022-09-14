@@ -8,5 +8,4 @@ export interface EventEntity {
     startDate: number | null,
     endDate: number | null,
     alcoholicsIds: string[],
-    photosIds: string[],
 }

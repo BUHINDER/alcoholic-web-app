@@ -11,8 +11,12 @@ class Styles {
         bgcolor: "76ff03",
     };
 
-    static readonly signIn = {
-        mb: 10,
+    static readonly welcome = {
+        mb: 1,
+    };
+
+    static readonly buhinder = {
+        mb: 9,
     };
 
     static readonly form = {
