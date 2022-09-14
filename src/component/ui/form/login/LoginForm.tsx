@@ -1,18 +1,7 @@
 import React, {useState} from 'react';
 import {useLoginMutation} from "../../../../store/api/AuthApi";
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 
-import {
-    Avatar,
-    Box,
-    Container,
-    CssBaseline,
-    Grid,
-    IconButton,
-    InputAdornment,
-    OutlinedInput,
-    Typography
-} from "@mui/material";
+import {Box, Container, CssBaseline, Grid, IconButton, InputAdornment, OutlinedInput, Typography} from "@mui/material";
 import {Link, useNavigate} from "react-router-dom";
 import {Controller, useForm} from "react-hook-form";
 import {UserCredentialsEntity} from "../../../../entity/UserCredentialsEntity";
@@ -61,10 +50,8 @@ const LoginForm = () => {
         <Container component={"main"} maxWidth={"xs"}>
             <CssBaseline/>
             <Box sx={Styles.box}>
-                <Avatar sx={Styles.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography sx={Styles.signIn} variant={"h5"}>Sign in</Typography>
+                <Typography sx={Styles.welcome} variant={"h6"}>Welcome to</Typography>
+                <Typography sx={Styles.buhinder} variant={"h3"}>BUHINDER</Typography>
                 <Box component={"form"} onSubmit={handleSubmit(onSubmit)} sx={Styles.form}>
                     <Controller
                         name={"login"}
@@ -76,7 +63,7 @@ const LoginForm = () => {
                                                id={"login"}
                                                fullWidth
                                                autoFocus
-                                               type={"text"}
+                                               type={"login"}
                                                {...field}
                                 />
                             </ToolTipUI>

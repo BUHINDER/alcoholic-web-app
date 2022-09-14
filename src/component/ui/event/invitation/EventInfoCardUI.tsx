@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {Box, Button, Card, CardActions, CardContent, CardMedia, Typography} from "@mui/material";
-import {epochToRuDate} from "../../../../util/DateUtil";
+import {epochToDate} from "../../../../util/DateUtil";
 import {SingleEventResponse} from "../../../../dto/reponse/SingleEventResponse";
 import {ALCOPARTY_URL} from "../../../../util/EnvUtil";
 
@@ -30,8 +30,8 @@ const EventInfoCardUI: FC<IEventInfoCardUI> = ({event, buttonText, onClick}) => 
                 }
                 </Typography>
                 <Box sx={{display: "flex", justifyContent: "space-between", mt: 1}}>
-                    <Typography variant={"body2"}>{epochToRuDate(event.event.startDate)}</Typography>
-                    <Typography variant={"body2"}>{epochToRuDate(event.event.endDate)}</Typography>
+                    <Typography variant={"body2"}>{epochToDate(event.event.startDate)}</Typography>
+                    <Typography variant={"body2"}>{epochToDate(event.event.endDate)}</Typography>
                 </Box>
             </CardContent>
             <CardActions>
